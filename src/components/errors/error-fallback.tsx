@@ -1,5 +1,3 @@
-
-
 export const MainErrorFallback = () => {
   return (
     <div
@@ -8,7 +6,7 @@ export const MainErrorFallback = () => {
     >
       <h2 className="text-lg font-semibold">Ooops, something went wrong :( </h2>
       <p>Click here</p>
-        Refresh
+      Refresh
     </div>
   );
 };
