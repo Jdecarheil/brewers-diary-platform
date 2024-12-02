@@ -1,3 +1,3 @@
 export const LandingPage = () => {
-    return (<p>dwdfw</p>)
-}
+  return <p>dwsdfw</p>;
+};
