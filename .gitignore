@@ -36,3 +36,4 @@ typings/
 
 # Yarn Integrity file
 .yarn-integrity
+*storybook.log
