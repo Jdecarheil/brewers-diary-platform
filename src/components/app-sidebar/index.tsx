@@ -10,26 +10,27 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
+import { useNavigate } from 'react-router-dom';
 
 // Menu items.
 const items = [
   {
-    title: 'Home',
-    url: '#',
+    title: 'Your Recipes',
+    url: '/app/recipes',
     icon: Home,
   },
   {
-    title: 'Inbox',
+    title: 'Public Recipes',
     url: '#',
     icon: Inbox,
   },
   {
-    title: 'Calendar',
+    title: 'Tools',
     url: '#',
     icon: Calendar,
   },
   {
-    title: 'Search',
+    title: 'Sessions',
     url: '#',
     icon: Search,
   },
@@ -41,6 +42,11 @@ const items = [
 ];
 
 export function AppSidebar() {
+  const navigation = useNavigate();
+  const handleNav = (value: string) => {
+    navigation(value);
+  };
+
   return (
     <Sidebar>
       <SidebarContent>
@@ -51,7 +57,7 @@ export function AppSidebar() {
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <a href={item.url}>
+                    <a onClick={() => handleNav(item.url)}>
                       <item.icon />
                       <span>{item.title}</span>
                     </a>

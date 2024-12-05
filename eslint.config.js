@@ -12,7 +12,8 @@ module.exports = [
     },
     rules: {
       'prettier/prettier': 'error',
-      'semi': ['warn', 'always'],
+      semi: ['warn', 'always'],
+      'unused-imports/no-unused-imports': 'error',
     },
   },
 ];

@@ -13,10 +13,11 @@ interface FormItem {
   name: string;
   label: string;
   description: string;
+  type?: string;
 }
 
 export const FormElement = (props: FormItem) => {
-  const { name, control, label, description } = props;
+  const { name, control, label, description, type } = props;
   return (
     <FormField
       control={control}
@@ -25,7 +26,7 @@ export const FormElement = (props: FormItem) => {
         <FormItem>
           <FormLabel>{label}</FormLabel>
           <FormControl>
-            <Input {...field} />
+            <Input {...field} type={type} />
           </FormControl>
           <FormDescription>{description}</FormDescription>
           <FormMessage />

@@ -4,10 +4,12 @@ module.exports = {
   darkMode: ['class'],
   content: ['./src/**/*.{html,js,ts,tsx}'],
   theme: {
+    colors: {
+      main: '#003c47',
+      error: '#D22B2B',
+      link: '#0F52BA',
+    },
     extend: {
-      fontFamily: {
-        sans: ['"PT Sans"', 'sans-serif'],
-      },
       borderRadius: {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
@@ -18,10 +20,6 @@ module.exports = {
         title: 'text-2xl',
       },
       colors: {
-        main: {
-          primary: '#003c47',
-          error: 'red',
-        },
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         card: {

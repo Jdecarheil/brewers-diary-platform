@@ -18,8 +18,8 @@ export const AppProvider = ({ children }: AppProviderProps) => {
   );
 
   const nhost = new NhostClient({
-    subdomain: '<Your Nhost app subdomain>',
-    region: '<Your Nhost app region>',
+    subdomain: import.meta.env.VITE_NHOST_SUBDOMAIN,
+    region: import.meta.env.VITE_NHOST_REGION,
   });
 
   return (

@@ -18,14 +18,14 @@ export const createAppRouter = (queryClient: QueryClient) =>
     {
       path: '/auth/login',
       lazy: async () => {
-        const { Login } = await import('@routes/authentication/login');
+        const { Login } = await import('@/app/routes/authentication/login');
         return { Component: Login };
       },
     },
     {
       path: '/auth/register',
       lazy: async () => {
-        const { Register } = await import('@routes/authentication/register');
+        const { Register } = await import('@/app/routes/authentication/register');
         return { Component: Register };
       },
     },
@@ -46,7 +46,7 @@ export const createAppRouter = (queryClient: QueryClient) =>
       ErrorBoundary: NavigationError,
       children: [
         {
-          path: 'recipes',
+          path: '/app/recipes',
           lazy: async () => {
             const { Recipes } = await import('@/app/routes/app/recipes');
             return {
@@ -89,9 +89,9 @@ export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const user = useNhostClient();
   const location = useLocation();
 
-  // if (!user.auth.isAuthenticated()) {
-  //   return <Navigate to={'/auth/login'} replace />;
-  // }
+  if (!user.auth.isAuthenticated()) {
+    return <Navigate to={'/auth/login'} replace />;
+  }
 
   return children;
 };
