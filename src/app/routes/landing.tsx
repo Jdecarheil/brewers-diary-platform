@@ -8,11 +8,12 @@ import { useNavigate } from 'react-router-dom';
 
 export const Landing = () => {
   const navigate = useNavigate();
+
   const user = useNhostClient();
+  const isLoggedIn = user.auth.isAuthenticated();
 
   useEffect(() => {
-    console.log('www', user.auth.isAuthenticated());
-    if (true) {
+    if (isLoggedIn) {
       navigate('/app');
     } else {
       navigate('/auth/login');

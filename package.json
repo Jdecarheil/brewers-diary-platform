@@ -7,6 +7,7 @@
     "dev": "vite",
     "test:unit": "vitest --no-watch",
     "test:integration": "vitest",
+    "coverage": "vitest run --coverage",
     "tw-watch": "tailwindcss -i ./src/styles/input.css -o ./src/output.css --watch",
     "build": "tsc -b && vite build",
     "husky": "node ./node_modules/husky/bin.js",
@@ -18,9 +19,6 @@
   },
   "lint-staged": {
     "src/**/*.(ts|tsx|js|jsx)": [
-      "prettier --write"
-    ],
-    "src/**/*.(json|css|scss|md)|.(babelrc|prettierrc|eslint.js|tsconfig.json)": [
       "prettier --write"
     ]
   },
@@ -49,10 +47,6 @@
     "react-hook-form": "^7.53.2",
     "react-router-dom": "~6.23.0",
     "sharp": "~0.33.5",
-    "svgo": "~3.3.2",
-    "tailwind-merge": "^2.5.5",
-    "tailwindcss-animate": "^1.0.7",
-    "vite-plugin-image-optimizer": "~1.1.8",
     "zod": "^3.23.8"
   },
   "devDependencies": {
@@ -69,13 +63,13 @@
     "@storybook/react-vite": "^8.4.6",
     "@storybook/test": "^8.4.6",
     "@testing-library/dom": "^10.4.0",
+    "@testing-library/react": "^16.0.1",
     "@types/node": "^22.10.1",
-    "@types/react": "~18.2.19",
+    "@types/react": "^18.3.13",
     "@types/react-dom": "^18.3.1",
     "@typescript-eslint/eslint-plugin": "^8.16.0",
     "@typescript-eslint/parser": "^8.16.0",
     "@vitejs/plugin-react": "^4.3.4",
-    "dotenv": "^16.4.5",
     "eslint": "^9.16.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-import": "^2.25.3",
@@ -85,15 +79,20 @@
     "eslint-plugin-react-hooks": "^4.3.0",
     "eslint-plugin-react-refresh": "^0.4.14",
     "eslint-plugin-storybook": "^0.11.1",
+    "eslint-plugin-unused-imports": "^4.1.4",
     "globals": "^15.13.0",
     "husky": "^8.0.0",
+    "jsdom": "^25.0.1",
     "lint-staged": "^15.2.10",
     "prettier": "^3.4.1",
     "storybook": "^8.4.6",
+    "tailwind-merge": "^2.5.5",
     "tailwindcss": "^3.4.15",
-    "typescript": "~5.6.2",
-    "typescript-eslint": "^8.16.0",
+    "tailwindcss-animate": "^1.0.7",
+    "typescript": "^5.7.2",
+    "typescript-eslint": "^8.17.0",
     "vite": "^6.0.1",
+    "vite-plugin-image-optimizer": "~1.1.8",
     "vite-tsconfig-paths": "^5.1.3",
     "vitest": "^2.1.6"
   },

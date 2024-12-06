@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { emailSchema, resetSchema } from '@/schemas';
+import { resetSchema } from '@/schemas';
 import { useSignal } from '@preact/signals-react';
 import { useResetPassword } from '@nhost/react';
 import { useForm } from 'react-hook-form';

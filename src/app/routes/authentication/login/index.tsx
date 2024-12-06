@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { loginSchema } from '@/schemas';
 import { useSignal } from '@preact/signals-react';
-import { useNhostClient, useSignInEmailPassword } from '@nhost/react';
+import { useSignInEmailPassword } from '@nhost/react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FormElement } from '@/components/form-item';
@@ -27,6 +27,7 @@ export const Login = () => {
     try {
       const { error } = await signInEmailPassword(values.email, values.password);
       if (error) {
+        console.log(error);
         errortext.value = error.message;
       } else {
         navigate('/app', { replace: true });
@@ -61,13 +62,7 @@ export const Login = () => {
                 Forgot Password?
               </a>
             </div>
-            <Button
-              variant={'default'}
-              className="bg-main w-full"
-              style={{ maxWidth: '100%' }}
-              size={'default'}
-              type="submit"
-            >
+            <Button variant={'default'} className="bg-main w-full" size={'default'} type="submit">
               Login
             </Button>
             <div className="text-center">

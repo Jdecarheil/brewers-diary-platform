@@ -1,3 +1,4 @@
+export * from '@/components/form-item';
 import {
   FormControl,
   FormDescription,
@@ -5,11 +6,11 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '../ui/form';
-import { Input } from '../ui/input';
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
 
 interface FormItem {
-  control?: any;
+  control: any;
   name: string;
   label: string;
   description: string;

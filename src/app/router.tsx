@@ -1,5 +1,5 @@
 import { QueryClient, useQueryClient } from '@tanstack/react-query';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { Navigate, RouterProvider, createBrowserRouter, useLocation } from 'react-router-dom';
 import { AppRoot } from '@/app/routes/app/root';
 import { useNhostClient } from '@nhost/react';

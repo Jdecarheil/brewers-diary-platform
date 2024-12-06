@@ -1,9 +1,6 @@
-import { Home, PanelLeft, Folder, Users, User2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { NavLink, useNavigate, useNavigation } from 'react-router-dom';
+import { useNavigation } from 'react-router-dom';
 
-import logo from '@/assets/logo.svg';
-import { Button } from '@/components/ui/button';
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 import { AppSidebar } from '@/components/app-sidebar';
 
