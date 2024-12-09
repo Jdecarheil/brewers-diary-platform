@@ -22,9 +22,6 @@
   },
   "lint-staged": {
     "src/**/*.(ts|tsx)": [
-      [
-        "echo dwd"
-      ],
       "biome check --write ."
     ]
   },
