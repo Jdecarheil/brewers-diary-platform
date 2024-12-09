@@ -7,7 +7,7 @@ import { useNhostClient } from '@nhost/react';
 import { AuthLayout } from './routes/authentication/layouts/auth-layout';
 // import { AppRoot, AppRootErrorBoundary } from './routes/app/root';
 //
-const test = '';
+const test = 'ew';
 export const createAppRouter = () =>
   createBrowserRouter([
     {
