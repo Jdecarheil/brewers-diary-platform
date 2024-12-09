@@ -1,12 +1,12 @@
 export const DashboardRoute = () => {
-  // const user = useUser();
-  return (
-    <div title="Dashboard">
-      <h1 className="text-xl">
-        welcome
-        {/* Welcome <b>{`${user.data?.firstName} ${user.data?.lastName}`}</b> */}
-      </h1>
-      {/* <h4 className="my-3">
+	// const user = useUser();
+	return (
+		<div title="Dashboard">
+			<h1 className="text-xl">
+				welcome
+				{/* Welcome <b>{`${user.data?.firstName} ${user.data?.lastName}`}</b> */}
+			</h1>
+			{/* <h4 className="my-3">
           Your role is : <b>{user.data?.role}</b>
         </h4>
         <p className="font-medium">In this application you can:</p>
@@ -25,6 +25,6 @@ export const DashboardRoute = () => {
             <li>Delete all comments</li>
           </ul>
         )} */}
-    </div>
-  );
+		</div>
+	);
 };

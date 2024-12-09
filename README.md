@@ -1,3 +1,12 @@
+# **Overview**
+
+## Static analysis
+
+- _Typescript._
+- _Biome linting_
+- _Husky commit linting_
+- _prettier_
+
 # **Project Structure**
 
 src

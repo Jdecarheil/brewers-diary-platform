@@ -1,17 +1,17 @@
-import { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from "@storybook/react";
 
-import { Label } from '@/components/ui/label';
+import { Label } from "@/components/ui/label";
 
 const meta: Meta<typeof Label> = {
-  component: Label,
+	component: Label,
 };
 
 export default meta;
 type Story = StoryObj<typeof Label>;
 
 export const Default: Story = {
-  args: {
-    className: 'w-full ',
-    htmlFor: 'email',
-  },
+	args: {
+		className: "w-full ",
+		htmlFor: "email",
+	},
 };

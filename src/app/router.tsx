@@ -2,9 +2,9 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import { Navigate, Outlet, RouterProvider, createBrowserRouter } from 'react-router-dom';
 
+import { DashboardLayout } from '@/components/layouts/dashboard';
 import { useNhostClient } from '@nhost/react';
 import { AuthLayout } from './routes/authentication/layouts/auth-layout';
-import { DashboardLayout } from '@/components/layouts/dashboard';
 // import { AppRoot, AppRootErrorBoundary } from './routes/app/root';
 
 export const createAppRouter = () =>
@@ -81,7 +81,7 @@ export const createAppRouter = () =>
 
 export const AppRouter = () => {
   const queryClient = useQueryClient();
-
+  const d = 'd';
   const router = useMemo(() => createAppRouter(), [queryClient]);
 
   return <RouterProvider router={router} />;

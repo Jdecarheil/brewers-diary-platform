@@ -1,0 +1,9 @@
+import{j as m}from"./jsx-runtime-WdPq8kIh.js";import{c as f,S as p}from"./index-Cqv5JtRr.js";import{r as g}from"./index-BpYrhlGc.js";import{c as v}from"./utils-CytzSlOG.js";const b=f("inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",{variants:{variant:{default:"bg-primary text-primary-foreground shadow hover:bg-primary/90",destructive:"bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",outline:"border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",secondary:"bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",ghost:"hover:bg-accent hover:text-accent-foreground",link:"text-primary underline-offset-4 hover:underline"},size:{default:"h-9 px-4 py-2",sm:"h-8 rounded-md px-3 text-xs",lg:"h-10 rounded-md px-8",icon:"h-9 w-9"}},defaultVariants:{variant:"default",size:"default"}}),s=g.forwardRef(({className:a,variant:n,size:i,asChild:d=!1,...c},u)=>{const l=d?p:"button";return m.jsx(l,{className:v(b({variant:n,size:i,className:a})),ref:u,...c})});s.displayName="Button";const z={component:s},e={args:{variant:"default",className:"w-full ",size:"default",type:"submit",children:"Sample"}};var t,r,o;e.parameters={...e.parameters,docs:{...(t=e.parameters)==null?void 0:t.docs,source:{originalSource:`{
+  args: {
+    variant: "default",
+    className: "w-full ",
+    size: "default",
+    type: "submit",
+    children: "Sample"
+  }
+}`,...(o=(r=e.parameters)==null?void 0:r.docs)==null?void 0:o.source}}};const S=["Default"];export{e as Default,S as __namedExportsOrder,z as default};

@@ -1,5 +1,7 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
+echo "Running unit tests"
 npm run test:unit
-npx lint-staged
+echo "Running Lint Stage"
+npx lint-staged --no-stash
