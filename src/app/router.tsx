@@ -1,12 +1,13 @@
-import { QueryClient, useQueryClient } from '@tanstack/react-query';
-import { useMemo, useState } from 'react';
-import { Navigate, RouterProvider, createBrowserRouter, useLocation } from 'react-router-dom';
-import { AppRoot } from '@/app/routes/app/root';
+import { useQueryClient } from '@tanstack/react-query';
+import { useMemo } from 'react';
+import { Navigate, Outlet, RouterProvider, createBrowserRouter } from 'react-router-dom';
+
 import { useNhostClient } from '@nhost/react';
-import { loadRecipes } from '@/app/routes/app/recipes';
+import { AuthLayout } from './routes/authentication/layouts/auth-layout';
+import { DashboardLayout } from '@/components/layouts/dashboard';
 // import { AppRoot, AppRootErrorBoundary } from './routes/app/root';
 
-export const createAppRouter = (queryClient: QueryClient) =>
+export const createAppRouter = () =>
   createBrowserRouter([
     {
       path: '/',
@@ -16,25 +17,30 @@ export const createAppRouter = (queryClient: QueryClient) =>
       },
     },
     {
-      path: '/auth/login',
-      lazy: async () => {
-        const { Login } = await import('@/app/routes/authentication/login');
-        return { Component: Login };
-      },
-    },
-    {
-      path: '/auth/register',
-      lazy: async () => {
-        const { Register } = await import('@/app/routes/authentication/register');
-        return { Component: Register };
-      },
-    },
-    {
-      path: '/auth/forgot-password',
-      lazy: async () => {
-        const { ForgotPassword } = await import('@routes/authentication/forgot-password');
-        return { Component: ForgotPassword };
-      },
+      element: <AuthLayout />,
+      children: [
+        {
+          path: '/auth/login',
+          lazy: async () => {
+            const { Login } = await import('@/app/routes/authentication/login');
+            return { Component: Login };
+          },
+        },
+        {
+          path: '/auth/register',
+          lazy: async () => {
+            const { Register } = await import('@/app/routes/authentication/register');
+            return { Component: Register };
+          },
+        },
+        {
+          path: '/auth/forgot-password',
+          lazy: async () => {
+            const { ForgotPassword } = await import('@routes/authentication/forgot-password');
+            return { Component: ForgotPassword };
+          },
+        },
+      ],
     },
     {
       path: '/app',
@@ -69,33 +75,36 @@ export const createAppRouter = (queryClient: QueryClient) =>
     },
     {
       path: '*',
-      lazy: async () => {
-        return {
-          Component: NavigationError,
-        };
-      },
+      element: <NavigationError />,
     },
   ]);
 
 export const AppRouter = () => {
   const queryClient = useQueryClient();
 
-  const router = useMemo(() => createAppRouter(queryClient), [queryClient]);
+  const router = useMemo(() => createAppRouter(), [queryClient]);
 
   return <RouterProvider router={router} />;
 };
 
 export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-  const user = useNhostClient();
-  const location = useLocation();
-
-  if (!user.auth.isAuthenticated()) {
-    return <Navigate to={'/auth/login'} replace />;
-  }
-
-  return children;
+  const { isAuthenticated, isLoading } = useNhostClient().auth.getAuthenticationStatus();
+  console.log('protected route:', isAuthenticated);
+  if (!isLoading) return isAuthenticated ? children : <Navigate to="/auth/login" />;
 };
 
 export const NavigationError = () => {
-  return <p>Something went wrong and the page could not be loaded</p>;
+  return (
+    <div className="w-full h-full content-center h-screen border">
+      <p className="text-center">Something went wrong and the page could not be loaded</p>
+    </div>
+  );
+};
+
+export const AppRoot = () => {
+  return (
+    <DashboardLayout>
+      <Outlet />
+    </DashboardLayout>
+  );
 };

@@ -1,12 +1,12 @@
-/// <reference types="vitest/config" />
-import { defineConfig } from 'vite';
+import { defineConfig as defineViteConfig, mergeConfig } from 'vite';
+import { defineConfig as defineVitestConfig } from 'vitest/config';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import { ViteImageOptimizer } from 'vite-plugin-image-optimizer';
 
 // https://vite.dev/config/
-export default defineConfig({
+const viteConfig = defineViteConfig({
   plugins: [
     react({
       babel: {
@@ -26,13 +26,18 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
-  test: {
-    globals: true,
-    environment: 'jsdom',
-    setupFiles: './src/setup.ts',
-  },
   server: {
     host: '127.0.0.1',
     port: 3000,
   },
 });
+
+const vitestConfig = defineVitestConfig({
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: './src/setup.ts',
+  },
+});
+
+export default mergeConfig(vitestConfig, viteConfig);

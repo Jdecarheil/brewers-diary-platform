@@ -7,11 +7,8 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { QueryClient } from '@tanstack/react-query';
-import { LoaderFunctionArgs } from 'react-router-dom';
 
 export const Recipes = () => {
-  console.log('ddd');
   return (
     <Table>
       <TableCaption>A list of your recent invoices.</TableCaption>
@@ -35,11 +32,11 @@ export const Recipes = () => {
   );
 };
 
-export const loadRecipes = (queryClient: QueryClient) => {
-  async ({ request }: LoaderFunctionArgs) => {
-    return 'fff';
-  };
-};
+// export const loadRecipes = (queryClient: QueryClient) => {
+//   async ({ request }: LoaderFunctionArgs) => {
+//     return 'fff';
+//   };
+// };
 
 // export const discussionsLoader =
 //   (queryClient: QueryClient) =>

@@ -15,10 +15,11 @@ interface FormItem {
   label: string;
   description: string;
   type?: string;
+  disabled?: boolean;
 }
 
 export const FormElement = (props: FormItem) => {
-  const { name, control, label, description, type } = props;
+  const { name, control, label, description, type, disabled } = props;
   return (
     <FormField
       control={control}
@@ -27,7 +28,7 @@ export const FormElement = (props: FormItem) => {
         <FormItem>
           <FormLabel>{label}</FormLabel>
           <FormControl>
-            <Input {...field} type={type} />
+            <Input disabled={disabled} {...field} type={type} />
           </FormControl>
           <FormDescription>{description}</FormDescription>
           <FormMessage />

@@ -3,7 +3,7 @@ import { MainErrorFallback } from '@components/error-fallback';
 import { ErrorBoundary } from 'react-error-boundary';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { queryConfig } from '@config/react-query';
-import { NhostClient, NhostReactProvider } from '@nhost/react';
+import { NhostClient, NhostProvider } from '@nhost/react';
 
 type AppProviderProps = {
   children: React.ReactNode;
@@ -29,9 +29,9 @@ export const AppProvider = ({ children }: AppProviderProps) => {
       }
     >
       <ErrorBoundary FallbackComponent={MainErrorFallback}>
-        <NhostReactProvider nhost={nhost}>
+        <NhostProvider nhost={nhost}>
           <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-        </NhostReactProvider>
+        </NhostProvider>
       </ErrorBoundary>
     </React.Suspense>
   );

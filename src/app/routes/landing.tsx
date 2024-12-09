@@ -1,24 +1,23 @@
-// import { useNavigate } from 'react-router-dom';
-
-import { useNhostClient } from '@nhost/react';
-import { useEffect } from 'react';
+import { Button } from '@/components/ui/button';
+import { useAuthenticated } from '@nhost/react';
 import { useNavigate } from 'react-router-dom';
-
-// import logo from '@/assets/logo.svg';
 
 export const Landing = () => {
   const navigate = useNavigate();
+  const user = useAuthenticated();
 
-  const user = useNhostClient();
-  const isLoggedIn = user.auth.isAuthenticated();
-
-  useEffect(() => {
-    if (isLoggedIn) {
+  const handleStart = () => {
+    console.log('landing page is logged', user);
+    if (user) {
       navigate('/app');
     } else {
       navigate('/auth/login');
     }
-  });
+  };
 
-  return <>test</>;
+  return (
+    <>
+      <Button onClick={handleStart}>Click</Button>
+    </>
+  );
 };

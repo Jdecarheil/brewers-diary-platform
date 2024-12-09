@@ -1,19 +1,19 @@
+import { Submit } from '../../../../components/buttons/submit';
 import { z } from 'zod';
 import { loginSchema } from '@/schemas';
-import { useSignal } from '@preact/signals-react';
 import { useSignInEmailPassword } from '@nhost/react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FormElement } from '@/components/form-item';
-import logo from '@/assets/title.avif';
-import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { useNavigate } from 'react-router-dom';
-
+import { useSignal } from '@preact/signals-react';
 export const Login = () => {
-  const { signInEmailPassword } = useSignInEmailPassword();
-  const errortext = useSignal('');
   const navigate = useNavigate();
+
+  const { signInEmailPassword, isLoading, needsEmailVerification } = useSignInEmailPassword();
+  const errorMessage = useSignal('');
+  const errorStatus = useSignal(0);
 
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -25,35 +25,60 @@ export const Login = () => {
 
   async function onSubmit(values: z.infer<typeof loginSchema>) {
     try {
-      const { error } = await signInEmailPassword(values.email, values.password);
-      if (error) {
-        console.log(error);
-        errortext.value = error.message;
+      const { isSuccess, isError, error } = await signInEmailPassword(
+        values.email,
+        values.password
+      );
+
+      if (isSuccess && !isError) {
+        navigate('/', { replace: true });
       } else {
-        navigate('/app', { replace: true });
+        if (error) {
+          errorMessage.value = error.message;
+          errorStatus.value = error.status;
+        } else {
+          errorMessage.value = 'Something went wrong';
+        }
       }
     } catch (error) {
       console.log(error);
     }
   }
-
+  const disableForm = false;
+  // const disableForm = isLoading || needsEmailVerification;
   return (
-    <div className="flex h-screen">
-      <div className="w-1/3 m-auto">
-        <img className="self-auto w-full mb-8" src={logo} />
-        <h1 className="text-center text-2xl font-bold">{'Sign in to your account'}</h1>
+    <>
+      <h1 className="text-center text-2xl font-bold">{'Sign in to your account'}</h1>
+      {needsEmailVerification ? (
+        <>
+          <br />
+          <div>
+            <p className="text-center">
+              Please check your mailbox and follow the verification link to verify your email.
+            </p>
+            <br />
+            <div className="text-center">
+              <a href="/auth/login" className=" text-link">
+                Try Again
+              </a>
+            </div>
+          </div>
+        </>
+      ) : (
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <FormElement
               control={form.control}
               name="email"
               label="Email"
+              disabled={isLoading ? disableForm : false}
               description="Enter your preffered email"
             />
             <FormElement
               control={form.control}
               name="password"
               label="Password"
+              disabled={isLoading ? disableForm : false}
               type="password"
               description="Enter your password."
             />
@@ -62,9 +87,7 @@ export const Login = () => {
                 Forgot Password?
               </a>
             </div>
-            <Button variant={'default'} className="bg-main w-full" size={'default'} type="submit">
-              Login
-            </Button>
+            <Submit title="Login" disabled={isLoading ? disableForm : false} />
             <div className="text-center">
               <span className="text-main text-informational">
                 Don't have an account yet?
@@ -73,10 +96,17 @@ export const Login = () => {
                 </a>
               </span>
             </div>
-            <p className="text-error text-informational text-center">{errortext.value}</p>
+            <p className="text-error text-informational text-center">{errorMessage}</p>
+            {errorStatus.value === 20 ? (
+              <div className="text-center">
+                <a className="text-link text-informational" href="/app">
+                  Go to dashboard
+                </a>
+              </div>
+            ) : null}
           </form>
         </Form>
-      </div>
-    </div>
+      )}
+    </>
   );
 };

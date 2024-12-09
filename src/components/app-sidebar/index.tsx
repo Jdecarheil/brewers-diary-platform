@@ -3,6 +3,7 @@ import { Calendar, Home, Inbox, Search, Settings } from 'lucide-react';
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -11,6 +12,8 @@ import {
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { useNavigate } from 'react-router-dom';
+import { Button } from '../ui/button';
+import { useSignOut } from '@nhost/react';
 
 // Menu items.
 const items = [
@@ -42,9 +45,15 @@ const items = [
 ];
 
 export function AppSidebar() {
-  const navigation = useNavigate();
+  const navigate = useNavigate();
   const handleNav = (value: string) => {
-    navigation(value);
+    navigate(value);
+  };
+  const { signOut } = useSignOut();
+  const handleLogout = () => {
+    signOut();
+
+    navigate('/auth/login');
   };
 
   return (
@@ -68,6 +77,9 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+      <SidebarFooter>
+        <Button title="logout" onClick={() => handleLogout()} />
+      </SidebarFooter>
     </Sidebar>
   );
 }
