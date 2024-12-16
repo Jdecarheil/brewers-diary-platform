@@ -4,6 +4,8 @@
 
 - _Typescript._
 - _Biome linting_
+Formatting and rule checking to lint code, configured to run on commits
+
 - _Husky commit linting_
 - _prettier_
 

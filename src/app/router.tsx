@@ -1,45 +1,43 @@
-import { useQueryClient } from '@tanstack/react-query';
-import { useMemo } from 'react';
-import { Navigate, Outlet, RouterProvider, createBrowserRouter } from 'react-router-dom';
-
+import { AuthLayout } from '@/app/routes/authentication/layouts/auth-layout';
 import { DashboardLayout } from '@/components/layouts/dashboard';
-import { useNhostClient } from '@nhost/react';
-import { AuthLayout } from './routes/authentication/layouts/auth-layout';
-// import { AppRoot, AppRootErrorBoundary } from './routes/app/root';
-//
-const test = 'ew';
-export const createAppRouter = () =>
+import { getUser } from '@/lib/auth';
+
+import { QueryClient, useQueryClient } from '@tanstack/react-query';
+import { useMemo } from 'react';
+
+import { Navigate, Outlet, RouterProvider, createBrowserRouter } from 'react-router';
+const convert = (queryClient: QueryClient) => (m: any) => {
+  const { clientLoader, clientAction, default: Component, ...rest } = m;
+
+  return {
+    ...rest,
+    loader: clientLoader?.(queryClient),
+    action: clientAction?.(queryClient),
+    Component,
+  };
+};
+
+export const createAppRouter = (queryClient: QueryClient) =>
   createBrowserRouter([
     {
       path: '/',
-      lazy: async () => {
-        const { Landing } = await import('@/app/routes/landing');
-        return { Component: Landing };
-      },
+      lazy: () => import('@/app/routes/landing').then(convert(queryClient)),
     },
     {
       element: <AuthLayout />,
+      hydrateFallbackElement: <p>loading...</p>,
       children: [
         {
           path: '/auth/login',
-          lazy: async () => {
-            const { Login } = await import('@/app/routes/authentication/login');
-            return { Component: Login };
-          },
+          lazy: () => import('@/app/routes/authentication/login').then(convert(queryClient)),
         },
         {
           path: '/auth/register',
-          lazy: async () => {
-            const { Register } = await import('@/app/routes/authentication/register');
-            return { Component: Register };
-          },
+          lazy: () => import('@/app/routes/authentication/register').then(convert(queryClient)),
         },
         {
           path: '/auth/forgot-password',
-          lazy: async () => {
-            const { ForgotPassword } = await import('@routes/authentication/forgot-password');
-            return { Component: ForgotPassword };
-          },
+          lazy: () => import('@routes/authentication/forgot-password').then(convert(queryClient)),
         },
       ],
     },
@@ -54,23 +52,7 @@ export const createAppRouter = () =>
       children: [
         {
           path: '/app/recipes',
-          lazy: async () => {
-            const { Recipes } = await import('@/app/routes/app/recipes');
-            return {
-              Component: Recipes,
-            };
-          },
-          ErrorBoundary: NavigationError,
-        },
-        {
-          path: '',
-          lazy: async () => {
-            const { DashboardRoute } = await import('@/app/routes/app/dashboard');
-            return {
-              Component: DashboardRoute,
-            };
-          },
-          ErrorBoundary: NavigationError,
+          lazy: () => import('@/app/routes/app/recipes').then(convert(queryClient)),
         },
       ],
     },
@@ -82,21 +64,21 @@ export const createAppRouter = () =>
 
 export const AppRouter = () => {
   const queryClient = useQueryClient();
-  const d = 'd';
-  const router = useMemo(() => createAppRouter(), [queryClient]);
+
+  const router = useMemo(() => createAppRouter(queryClient), ['queryClient']);
 
   return <RouterProvider router={router} />;
 };
 
 export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-  const { isAuthenticated, isLoading } = useNhostClient().auth.getAuthenticationStatus();
-  console.log('protected route:', isAuthenticated);
-  if (!isLoading) return isAuthenticated ? children : <Navigate to="/auth/login" />;
+  const user = getUser();
+
+  return user ? children : <Navigate to="/auth/login" />;
 };
 
 export const NavigationError = () => {
   return (
-    <div className="w-full h-full content-center h-screen border">
+    <div className="w-full content-center h-screen border">
       <p className="text-center">Something went wrong and the page could not be loaded</p>
     </div>
   );

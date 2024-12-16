@@ -1,51 +1,89 @@
+// import { NhostClient } from '@nhost/react';
+// import { QueryClient } from '@tanstack/react-query';
+// import { ColumnDef } from '@tanstack/react-table';
+// import { ReactElement, useTransition } from 'react';
+// import { LoaderFunctionArgs, useParams } from 'react-router';
+// import logo from '@assets/title.avif';
+import { Card } from '@/components/card';
 import {
-	Table,
-	TableBody,
-	TableCaption,
-	TableCell,
-	TableHead,
-	TableHeader,
-	TableRow,
-} from "@/components/ui/table";
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from '@/components/ui/pagination';
 
-export const Recipes = () => {
-	return (
-		<Table>
-			<TableCaption>A list of your recent invoices.</TableCaption>
-			<TableHeader>
-				<TableRow>
-					<TableHead className="w-[100px]">Invoice</TableHead>
-					<TableHead>Status</TableHead>
-					<TableHead>Method</TableHead>
-					<TableHead className="text-right">Amount</TableHead>
-				</TableRow>
-			</TableHeader>
-			<TableBody>
-				<TableRow>
-					<TableCell className="font-medium">INV001</TableCell>
-					<TableCell>Paid</TableCell>
-					<TableCell>Credit Card</TableCell>
-					<TableCell className="text-right">$250.00</TableCell>
-				</TableRow>
-			</TableBody>
-		</Table>
-	);
+export const clientLoader = () => {
+  // (queryClient: QueryClient, nhostClient: NhostClient) =>
+  // async ({ request }: LoaderFunctionArgs) => {
+  //   	const res = nhostClient.auth.getSession()
+
+  // const {isLoading, isAuthenticated} = await nhostClient.auth.getAuthenticationStatus()
+
+  // const {data, error} = await nhostClient.graphql.request(getRecipes)
+  // if(error){
+  // 	console.log(error)
+  // 	return
+  // }
+  // useTransition();
+  // queryClient.getQueryData(['recipes'])
+  // console.log(data)
+  return 'dwd';
 };
 
-// export const loadRecipes = (queryClient: QueryClient) => {
-//   async ({ request }: LoaderFunctionArgs) => {
-//     return 'fff';
-//   };
-// };
+const Recipes = () => {
+  const recipe = [
+    { id: '1', test: 1 },
+    { id: '2', test: 1 },
+    { id: '3', test: 1 },
+  ];
 
-// export const discussionsLoader =
-//   (queryClient: QueryClient) =>
-//   async ({ request }: LoaderFunctionArgs) => {
-//     const url = new URL(request.url);
+  return (
+    <>
+      <div className="w-full h-full content-center">
+        <div className="h-4/5 w-4/5 bord self-auto ">
+          {recipe.map((value) => {
+            console.log(value);
+            return <Card key={value.id} />;
+          })}
+        </div>
 
-//     const page = Number(url.searchParams.get('page') || 1);
+        {/* <div className="h-1/6">{recipeLength > 10 ? <RecipePagination /> : null}</div> */}
+      </div>
+    </>
+  );
+};
 
-//     const query = getDiscussionsQueryOptions({ page });
-
-//     return queryClient.getQueryData(query.queryKey) ?? (await queryClient.fetchQuery(query));
-//   };
+export const RecipePagination = () => {
+  return (
+    <>
+      <Pagination>
+        <PaginationContent>
+          <PaginationItem>
+            <PaginationPrevious href="#" />
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationLink href="#">1</PaginationLink>
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationLink href="#" isActive>
+              2
+            </PaginationLink>
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationLink href="#">3</PaginationLink>
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationEllipsis />
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationNext href="#" />
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
+    </>
+  );
+};
+export default Recipes;

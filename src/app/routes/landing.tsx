@@ -1,23 +1,20 @@
-import { Button } from "@/components/ui/button";
-import { useAuthenticated } from "@nhost/react";
-import { useNavigate } from "react-router-dom";
+import { getUser } from '@/lib/auth';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router';
 
 export const Landing = () => {
-	const navigate = useNavigate();
-	const user = useAuthenticated();
+  const navigate = useNavigate();
 
-	const handleStart = () => {
-		console.log("landing page is logged", user);
-		if (user) {
-			navigate("/app");
-		} else {
-			navigate("/auth/login");
-		}
-	};
+  useEffect(() => {
+    const checkAuth = async () => {
+      const response = await getUser();
 
-	return (
-		<>
-			<Button onClick={handleStart}>Click</Button>
-		</>
-	);
+      if (response) navigate('/app');
+      else navigate('/auth/login');
+    };
+
+    checkAuth();
+  }, []);
 };
+
+export default Landing;

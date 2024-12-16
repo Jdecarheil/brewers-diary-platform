@@ -25,12 +25,14 @@
     "paths": {
       "@/*": ["./src/*"],
       "@app/*": ["./src/app/*"],
+      "@types/*": ["./src/types/*"],
       "@assets/*": ["./src/assets/*"],
+      "@constants/*": ["./src/constants/*"],
       "@components/*": ["./src/components/*"],
       "@config/*": ["./src/config/*"],
       "@hooks/*": ["./src/hooks/*"],
       "@lib/*": ["./src/lib/*"],
-      "@types/*": ["./src/types/*"],
+      "@global-types/*": ["./src/types/*"],
       "@utils/*": ["./src/utils/*"],
       "@routes/*": ["./src/app/routes/*"]
     }
