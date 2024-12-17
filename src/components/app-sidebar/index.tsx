@@ -45,9 +45,9 @@ const items = [
 
 export function AppSidebar() {
   const navigate = useNavigate();
-  const handleNav = (value: string) => {
-    navigate(value);
-  };
+  // const handleNav = (value: string) => {
+  //   navigate(value);
+  // };
 
   const handleLogout = async () => {
     const logout = await signout();
@@ -71,10 +71,10 @@ export function AppSidebar() {
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <Button onClick={() => handleNav(item.url)}>
+                    <a href={item.url}>
                       <item.icon />
                       <span>{item.title}</span>
-                    </Button>
+                    </a>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}

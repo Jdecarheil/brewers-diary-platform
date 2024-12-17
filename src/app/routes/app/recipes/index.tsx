@@ -4,7 +4,7 @@
 // import { ReactElement, useTransition } from 'react';
 // import { LoaderFunctionArgs, useParams } from 'react-router';
 // import logo from '@assets/title.avif';
-import { Card } from '@/components/card';
+
 import {
   Pagination,
   PaginationContent,
@@ -15,43 +15,50 @@ import {
   PaginationPrevious,
 } from '@/components/ui/pagination';
 
+import { loadRecipes } from '@/features/recipes/api/queries/recipes';
+import { QueryClient } from '@tanstack/react-query';
+
+const getRecipesQuery = () => ({
+  queryKey: ['recipeData'],
+  queryFn: async () => loadRecipes(),
+});
+
 export const clientLoader = () => {
-  // (queryClient: QueryClient, nhostClient: NhostClient) =>
-  // async ({ request }: LoaderFunctionArgs) => {
-  //   	const res = nhostClient.auth.getSession()
+  (queryClient: QueryClient) => async () => {
+    const query = getRecipesQuery();
 
-  // const {isLoading, isAuthenticated} = await nhostClient.auth.getAuthenticationStatus()
-
-  // const {data, error} = await nhostClient.graphql.request(getRecipes)
-  // if(error){
-  // 	console.log(error)
-  // 	return
-  // }
-  // useTransition();
-  // queryClient.getQueryData(['recipes'])
-  // console.log(data)
-  return 'dwd';
+    return queryClient.getQueryData(query.queryKey) ?? (await queryClient.fetchQuery(query));
+  };
 };
 
 const Recipes = () => {
-  const recipe = [
-    { id: '1', test: 1 },
-    { id: '2', test: 1 },
-    { id: '3', test: 1 },
-  ];
+  // const params = useParams();
+  // const { data } = useQuery(getRecipesQuery());
 
   return (
     <>
-      <div className="w-full h-full content-center">
-        <div className="h-4/5 w-4/5 bord self-auto ">
-          {recipe.map((value) => {
-            console.log(value);
+      <div className="container m-auto grid grid-cols-3 gap-4">
+        <div className="tile">
+          <h1 className="tile-marker">dwdf</h1>
+        </div>
+        <div className="tile">
+          <h1 className="tile-marker">dwdf</h1>
+        </div>
+        <div className="tile">
+          <h1 className="tile-marker">dwdf</h1>
+        </div>
+        <div className="tile">
+          <h1 className="tile-marker">dwdf</h1>
+        </div>
+      </div>
+      {/* <Card /> */}
+      {/* <div className="h-4/5 w-4/5 bord self-auto ">
+          {data.map((value) => {
             return <Card key={value.id} />;
           })}
         </div>
 
-        {/* <div className="h-1/6">{recipeLength > 10 ? <RecipePagination /> : null}</div> */}
-      </div>
+        <div className="h-1/6">{data.length > 10 ? <RecipePagination /> : null}</div> */}
     </>
   );
 };

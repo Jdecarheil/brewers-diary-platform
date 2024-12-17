@@ -1,6 +1,6 @@
 import { HttpMethod } from '@/constants/enum';
 import { request } from '@/lib/request';
-import { LoginResponseSchema } from '@/schemas/request';
+import { LoginResponseSchema } from '@/schemas/response/auth';
 import { AuthResponse } from '@/types/request';
 import { User } from '@/types/user';
 

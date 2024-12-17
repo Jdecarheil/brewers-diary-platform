@@ -6,7 +6,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
     <>
       <SidebarProvider>
         <AppSidebar />
-        <main className="w-full max-h-full">
+        <main className="w-full max-h-full  bg-secondary">
           <SidebarTrigger />
           {children}
         </main>

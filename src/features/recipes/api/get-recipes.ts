@@ -12,7 +12,7 @@
 //     console.log('result', result)
 // }
 
-export const getRecipes = `
+export const getRecipesGQL = `
 
 query MyQuery {
   recipes {
