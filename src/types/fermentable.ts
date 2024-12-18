@@ -1,4 +1,4 @@
-import { Crush, FermentableCategory } from '@/constants/enum';
+import { Crush, FermentableCategory } from '@/constants/enums';
 
 export type Fermentable = {
   name: string;

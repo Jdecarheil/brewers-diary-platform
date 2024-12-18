@@ -1,4 +1,4 @@
-import { resetSchema } from '@/schemas/forms';
+import { resetSchema } from '@/schemas/form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useResetPassword } from '@nhost/react';
 import { useSignal } from '@preact/signals-react';

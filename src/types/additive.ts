@@ -1,4 +1,4 @@
-import { AdditiveType } from '@/constants/enum';
+import { AdditiveType } from '@/constants/enums';
 
 export type Additive = {
   recipe_id?: number;

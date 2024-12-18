@@ -1,4 +1,4 @@
-import { HttpMethod } from '@/constants/enum';
+import { HttpMethod } from '@/constants/enums';
 import { request } from '@/lib/request';
 import { LoginResponseSchema } from '@/schemas/response/auth';
 import { AuthResponse } from '@/types/request';

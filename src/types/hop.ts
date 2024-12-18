@@ -1,4 +1,4 @@
-import { Addition, HopType } from '@/constants/enum';
+import { Addition, HopType } from '@/constants/enums';
 
 export type Hop = {
   name: string;

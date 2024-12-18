@@ -1,7 +1,7 @@
 import { Submit } from '@/components/buttons/submit';
 import { FormElement } from '@/components/form-item';
 import { Form } from '@/components/ui/form';
-import { registerSchema } from '@/schemas/forms';
+import { registerSchema } from '@/schemas/form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useSignUpEmailPassword } from '@nhost/react';
 import { useSignal } from '@preact/signals-react';

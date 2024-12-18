@@ -1,17 +1,3 @@
-// import { Method } from "@/constants/enum"
-// import { request } from "@/lib/request"
-
-// const options = {
-//     url: 'https://qeizqjbcpmknvfqqawhu.hasura.ap-southeast-1.nhost.run/api/rest/public-recipes',
-//     method: Method.GET
-// }
-
-// export const getRecipes = async (userId: string) => {
-
-//     const result = await request(options)
-//     console.log('result', result)
-// }
-
 export const getRecipesGQL = `
 
 query MyQuery {

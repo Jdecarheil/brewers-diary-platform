@@ -1,4 +1,4 @@
-import { YeastState, YeastType } from '@constants/enum';
+import { YeastState, YeastType } from '@/constants/enums';
 
 export type Yeast = {
   name: string;

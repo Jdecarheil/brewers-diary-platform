@@ -1,9 +1,8 @@
 import { Submit } from '@/components/buttons/submit';
 import { FormElement } from '@/components/form-item';
 import { Form } from '@/components/ui/form';
-
 import { loginWithEmailAndPassword } from '@/lib/auth';
-import { loginSchema } from '@/schemas/forms';
+import { loginSchema } from '@/schemas/form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useSignal } from '@preact/signals-react';
 import { useForm } from 'react-hook-form';
@@ -51,7 +50,7 @@ const Login = () => {
             name="email"
             label="Email"
             disabled={false}
-            description="Enter your preffered email"
+            description="Enter your preferred email"
           />
           <FormElement
             control={form.control}

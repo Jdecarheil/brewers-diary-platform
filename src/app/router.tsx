@@ -1,5 +1,5 @@
 import { AuthLayout } from '@/app/routes/authentication/layouts/auth-layout';
-import { DashboardLayout } from '@/components/layouts/dashboard';
+import { DashboardLayout } from '@/app/routes/dashboard';
 import { getUser } from '@/lib/auth';
 
 import { QueryClient, useQueryClient } from '@tanstack/react-query';
