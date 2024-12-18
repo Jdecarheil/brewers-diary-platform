@@ -54,6 +54,30 @@ export const createAppRouter = (queryClient: QueryClient) =>
           path: '/app/recipes',
           lazy: () => import('@/app/routes/app/recipes').then(convert(queryClient)),
         },
+        {
+          path: '/app/public-recipes',
+          lazy: () => import('@/app/routes/app/recipes').then(convert(queryClient)),
+        },
+        {
+          path: '/app/tools',
+          lazy: () => import('@/app/routes/app/tools').then(convert(queryClient)),
+        },
+        {
+          path: '/app/settings',
+          lazy: () => import('@/app/routes/app/settings').then(convert(queryClient)),
+        },
+        {
+          path: '/app/sessions',
+          lazy: () => import('@/app/routes/app/sessions').then(convert(queryClient)),
+        },
+        {
+          path: '/app/about',
+          lazy: () => import('@/app/routes/app/about').then(convert(queryClient)),
+        },
+        {
+          path: '/app/help',
+          lazy: () => import('@/app/routes/app/help').then(convert(queryClient)),
+        },
       ],
     },
     {

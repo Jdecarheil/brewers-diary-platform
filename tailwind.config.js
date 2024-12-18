@@ -18,6 +18,7 @@ module.exports = {
       },
       fontSize: {
         informational: '0.8rem',
+        badge: '0.6rem',
         title: 'text-2xl',
       },
       colors: {

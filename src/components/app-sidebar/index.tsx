@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
-import { Calendar, Home, Inbox, Search, Settings } from 'lucide-react';
 
+import { DialogBody } from '@/components/dialog';
+import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import {
   Sidebar,
   SidebarContent,
@@ -13,6 +14,7 @@ import {
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { signout } from '@/lib/auth';
+import { Calendar, Home, Inbox, LogOut, Search, Settings } from 'lucide-react';
 import { useNavigate } from 'react-router';
 
 const items = [
@@ -23,22 +25,32 @@ const items = [
   },
   {
     title: 'Public Recipes',
-    url: '#',
+    url: '/app/public-recipes',
     icon: Inbox,
   },
   {
     title: 'Tools',
-    url: '#',
+    url: '/app/tools',
     icon: Calendar,
   },
   {
     title: 'Sessions',
-    url: '#',
+    url: '/app/sessions',
     icon: Search,
   },
   {
     title: 'Settings',
-    url: '#',
+    url: '/app/settings',
+    icon: Settings,
+  },
+  {
+    title: 'About',
+    url: '/app/about',
+    icon: Settings,
+  },
+  {
+    title: 'Help',
+    url: '/app/help',
     icon: Settings,
   },
 ];
@@ -55,11 +67,12 @@ export function AppSidebar() {
     if (logout) {
       localStorage.removeItem('refreshToken');
       localStorage.removeItem('accessToken');
-      navigate('/auth/login');
+      navigate('/auth/login', { replace: true });
     } else {
       console.log('Logout failed ');
     }
   };
+  const username = 'dec0004';
 
   return (
     <Sidebar>
@@ -83,7 +96,26 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
-        <Button title="logout" onClick={() => handleLogout()} />
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button variant="outline" className="justify-between" title={username}>
+              <img
+                src="https://github.com/shadcn.png"
+                alt="user"
+                aria-label="User avatar"
+                className="aspect-auto h-full rounded-md self-start"
+              />
+              {username}
+              <LogOut />
+            </Button>
+          </DialogTrigger>
+          <DialogBody
+            title="Do you want to logout?"
+            description="You will be logged out of this session."
+            buttonAction={handleLogout}
+            buttonTitle="Logout"
+          />
+        </Dialog>
       </SidebarFooter>
     </Sidebar>
   );
