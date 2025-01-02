@@ -1,7 +1,7 @@
+import { useAuth } from '@/app/providers/auth';
 import { Submit } from '@/components/buttons/submit';
 import { FormElement } from '@/components/form-item';
 import { Form } from '@/components/ui/form';
-import { loginWithEmailAndPassword } from '@/lib/auth';
 import { loginSchema } from '@/schemas/form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useSignal } from '@preact/signals-react';
@@ -13,6 +13,7 @@ const Login = () => {
   const navigate = useNavigate();
   const errorMessage = useSignal('');
   const errorStatus = useSignal(0);
+  const auth = useAuth();
 
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -24,10 +25,9 @@ const Login = () => {
 
   async function onSubmit(values: z.infer<typeof loginSchema>) {
     try {
-      const response = await loginWithEmailAndPassword(values.email, values.password);
-
-      if (response) {
-        navigate('/app', {
+      const result = await auth.login({ ...values });
+      if (result) {
+        navigate('/app/recipes', {
           replace: true,
         });
       } else {

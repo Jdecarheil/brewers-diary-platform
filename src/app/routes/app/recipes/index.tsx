@@ -1,11 +1,16 @@
 import { loadRecipes } from '@/features/recipes/api/queries/recipes';
-import { PrivateRecipe } from '@/features/recipes/layouts/private-recipe';
-import { QueryClient } from '@tanstack/react-query';
+import { RecipeList } from '@/features/recipes/layouts/recipe-list';
+import { ViewRecipe } from '@/features/recipes/layouts/view-recipe';
 
-const getRecipesQuery = () => ({
-  queryKey: ['recipeData'],
-  queryFn: async () => loadRecipes(),
-});
+import { QueryClient, queryOptions, useQuery } from '@tanstack/react-query';
+import { useParams } from 'react-router';
+
+const getRecipesQuery = (recipeId?: string) => {
+  return queryOptions({
+    queryKey: ['recipes', recipeId],
+    queryFn: async () => loadRecipes(recipeId),
+  });
+};
 
 export const clientLoader = () => {
   (queryClient: QueryClient) => async () => {
@@ -16,10 +21,14 @@ export const clientLoader = () => {
 };
 
 const Recipes = () => {
-  // const params = useParams();
-  // const { data } = useQuery(getRecipesQuery());
+  const { id } = useParams();
+  const { data } = useQuery(getRecipesQuery(id));
 
-  return <PrivateRecipe />;
+  if (id) {
+    return <ViewRecipe recipe={data?.recipes[0]} />;
+  }
+
+  return <RecipeList recipes={data?.recipes} />;
 };
 
 export default Recipes;

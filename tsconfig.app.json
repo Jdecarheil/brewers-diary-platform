@@ -25,13 +25,16 @@
     "paths": {
       "@/*": ["./src/*"],
       "@app/*": ["./src/app/*"],
-      "@types/*": ["./src/types/*"],
       "@assets/*": ["./src/assets/*"],
-      "@constants/*": ["./src/constants/*"],
       "@components/*": ["./src/components/*"],
       "@config/*": ["./src/config/*"],
+      "@constants/*": ["./src/constants/*"],
+      "@types/*": ["./src/types/*"],
+      "@features/*": ["./src/features/*"],
       "@hooks/*": ["./src/hooks/*"],
       "@lib/*": ["./src/lib/*"],
+      "@schemas/*": ["./src/schemas/*"],
+      "@styles/*": ["./src/styles"],
       "@global-types/*": ["./src/types/*"],
       "@utils/*": ["./src/utils/*"],
       "@routes/*": ["./src/app/routes/*"]

@@ -9,14 +9,17 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@radix-ui/react-label';
 import { ChevronRight } from 'lucide-react';
+import { useNavigate } from 'react-router';
 
-export interface CardProps {
+type CardProps = {
   title: string;
   author: string;
-}
+  recipeId: number;
+};
 
-export const RecipeCard = (props: CardProps) => {
-  const { title, author } = props;
+export const RecipeCard = ({ title, author, recipeId }: CardProps) => {
+  const navigation = useNavigate();
+
   return (
     // <div className="h-full">
     //   <div className="h-2/5">
@@ -65,7 +68,10 @@ export const RecipeCard = (props: CardProps) => {
           {author}
         </p>
         <p>dwdfwd</p>
-        <ChevronRight className="float-right" />
+        <ChevronRight
+          className="float-right"
+          onClick={() => navigation(`/app/recipes/${recipeId}`, { replace: true })}
+        />
       </CardFooter>
     </Card>
   );

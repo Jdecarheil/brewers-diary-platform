@@ -1,15 +1,17 @@
 import { MainErrorFallback } from '@/components/error-fallback';
 import { queryConfig } from '@/config/react-query';
+
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import React from 'react';
+import { ReactNode, Suspense, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
+import { ToastContainer } from 'react-toastify';
 
 type AppProviderProps = {
-  children: React.ReactNode;
+  children: ReactNode;
 };
 
 export const AppProvider = ({ children }: AppProviderProps) => {
-  const [queryClient] = React.useState(
+  const [queryClient] = useState(
     () =>
       new QueryClient({
         defaultOptions: queryConfig,
@@ -17,14 +19,15 @@ export const AppProvider = ({ children }: AppProviderProps) => {
   );
 
   return (
-    <React.Suspense
+    <Suspense
       fallback={
         <div className="flex h-screen w-screen items-center justify-center">...loading</div>
       }
     >
+      <ToastContainer position="top-center" />
       <ErrorBoundary FallbackComponent={MainErrorFallback}>
         <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
       </ErrorBoundary>
-    </React.Suspense>
+    </Suspense>
   );
 };

@@ -1,15 +1,16 @@
-import { getUser } from '@/lib/auth';
+import { useAuth } from '@/app/providers/auth';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
 
 export const Landing = () => {
   const navigate = useNavigate();
+  const user = useAuth();
 
   useEffect(() => {
     const checkAuth = async () => {
-      const response = await getUser();
+      const res = await user.session();
 
-      if (response) navigate('/app');
+      if (res) navigate('/app');
       else navigate('/auth/login');
     };
 

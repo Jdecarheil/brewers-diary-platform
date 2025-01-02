@@ -7,15 +7,15 @@ import {
   PaginationPrevious,
 } from '@/components/ui/pagination';
 
-export const Pagination = (props: { pageCount: number }) => {
+export const Pagination = (pageCount: number) => {
   return (
     <CnPagination className="h-full">
       <PaginationContent>
         <PaginationItem>
           <PaginationPrevious href="#" />
         </PaginationItem>
-        {[...Array(props.pageCount)].map((i) => (
-          <PaginationItem key={i}>
+        {[...Array(pageCount)].map((i, e) => (
+          <PaginationItem key={e + pageCount}>
             <PaginationLink href="#">{i + 1}</PaginationLink>
           </PaginationItem>
         ))}

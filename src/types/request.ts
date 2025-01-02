@@ -1,20 +1,5 @@
-import { User } from '@/types/user';
+import { LoginResponseSchema } from '@/schemas/response/auth';
 
-export type AuthResponse = {
-  session: {
-    accessToken: string;
-    accessTokenExpiresIn: number;
-    refreshTokenId: string;
-    refreshToken: string;
-    user: User;
-  };
-  mfa: {
-    ticket: string | null;
-  } | null;
-};
+import { z } from 'zod';
 
-export type HttpError = {
-  status: number;
-  message: string;
-  error: string;
-};
+export type AuthResponse = z.infer<typeof LoginResponseSchema>;

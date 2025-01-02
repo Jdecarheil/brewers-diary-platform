@@ -1,28 +1,26 @@
-import { Recipe } from '@/types/recipe';
+import { UUID } from 'crypto';
 import { request as GQLRequest, gql } from 'graphql-request';
 
-export const loadRecipes = async (recipeId?: string) => {
+export const loadRecipe = (recipeId: UUID) => {
   const headers = { Authorization: `Bearer ${localStorage.getItem('accessToken')}` };
-
-  function getQuery(recipeId: string | undefined) {
-    if (recipeId) {
-      return getRecipesGQL('($recipe_id: Int) {recipes(where: { recipe_id: { _eq: $recipe_id } })');
-    }
-
-    return getRecipesGQL('{recipes');
-  }
-
-  const val = await GQLRequest<{ recipes: Array<Recipe> }>(
+  const result = GQLRequest(
     import.meta.env.VITE_NHOST_URL_GRAPHQL,
-    getQuery(recipeId),
+    getRecipeGQL,
     { recipe_id: recipeId },
     headers
   );
-  return val;
+
+  try {
+    // const result = LoginResponseSchema.parse(response);
+    return result;
+  } catch (error) {
+    console.log('Error parsing response schema: ', error);
+  }
 };
 
-export const getRecipesGQL = (query: string) => gql`
-    query ${query} {
+export const getRecipeGQL = gql`
+  query MyQuery($guid: UUID!) {
+    recipes(guid: $guid) {
       additives {
         addition
         brand

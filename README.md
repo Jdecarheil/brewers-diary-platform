@@ -61,7 +61,8 @@ src
 
 ## Static analysis
 
-- Typescript.
+- Typescript\
+  A standard nowadays in javascript projects to ensure type safety and get mroe assurance as our app scales.
 
 - Biome linting:\
   Formatting and rule checking to lint code, configured to run on commits
@@ -72,6 +73,9 @@ src
 - Prettier:\
   Is not yet ran through our pre-commit hook, however the default config file is found at the root of this application and it is suggested to use the prettier plugin for vscode and format on save
 
+- Zod:\
+  Whilst not static, zod is used for schema declaration and validation with our input form data as well as network request/response data. As typescript checks types at compile time, we cannot guarantee safe types at runtime.
+
 # **Coding Standards**
 
 - _File names and folders to use kebab-case._
@@ -79,6 +83,7 @@ src
 - _Where code can be reused, it should be included at the highest "relevant" directory_
 - _Unit tests accross the logic and accross all components_
 - _dependencies not referenced in code to be installed globally via shell setup script_
+- _types to be used over interfaces where it makes sense_
 
 # Testing
 
@@ -111,3 +116,13 @@ Some components will have multiple stories so we can test and view components in
 ### TailwindCSS
 
 For added customizability where shadcn cannot support the desired design out of the box, we use tailwindcss. A popular utility class based css framework that provides atomic classes that we write embedded into our components. This supports much faster development accross this app.
+
+### Image Assets
+
+Aim for avif or webpg
+
+# Notes
+
+### Code Splitting
+
+This project uses code splitting for all routes and sub routes. The size of the application is small and does not generally warrant lazy loading anything due to the small bundle size. However, as this serves as a portfolio project, it has been used for demonstration purposes and may be changed if app goes live.

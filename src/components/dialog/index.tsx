@@ -8,7 +8,7 @@ import {
 } from '@/components/ui/dialog';
 import { ReactNode } from 'react';
 
-export type DialogProps = {
+type DialogProps = {
   title: string;
   description: string;
   children?: ReactNode;
@@ -16,9 +16,13 @@ export type DialogProps = {
   buttonAction: () => void;
 };
 
-export const DialogBody = (props: DialogProps) => {
-  const { title, description, children, buttonTitle, buttonAction } = props;
-
+export const DialogBody = ({
+  title,
+  description,
+  children,
+  buttonTitle,
+  buttonAction,
+}: DialogProps) => {
   return (
     <DialogContent className="sm:max-w-[425px]">
       <DialogHeader>

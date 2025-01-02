@@ -2,15 +2,40 @@ import { AppSidebar } from '@/components/app-sidebar';
 import {
   Breadcrumb,
   BreadcrumbItem,
-  BreadcrumbLink,
   BreadcrumbList,
-  BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
 import { Separator } from '@/components/ui/separator';
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
+import { ReactNode } from 'react';
+import { Params, useMatches } from 'react-router';
 
-export function DashboardLayout({ children }: { children: React.ReactNode }) {
+type IMatches = {
+  id: string;
+  pathname: string;
+  params: Params<string>;
+  data: unknown;
+  handle: unknown;
+};
+
+type HandleType = {
+  crumb: (param?: string) => React.ReactNode;
+};
+
+export function DashboardLayout({ children }: { children: ReactNode }) {
+  const matches: IMatches[] = useMatches();
+
+  const crumbs = matches
+    .filter(({ handle }) => Boolean(handle && (handle as HandleType).crumb))
+    .map(({ handle, data, id }) => {
+      const crumb = (handle as HandleType).crumb(data as string | undefined) as ReactNode;
+      const crumbId = id;
+      return {
+        crumb: crumb,
+        id: crumbId,
+      };
+    });
+
   return (
     <>
       <SidebarProvider>
@@ -22,13 +47,16 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
               <Separator orientation="vertical" className="mr-2 h-4" />
               <Breadcrumb>
                 <BreadcrumbList>
-                  <BreadcrumbItem className="hidden md:block">
-                    <BreadcrumbLink href="#">Building Your Application</BreadcrumbLink>
-                  </BreadcrumbItem>
-                  <BreadcrumbSeparator className="hidden md:block" />
-                  <BreadcrumbItem>
-                    <BreadcrumbPage>Data Fetching</BreadcrumbPage>
-                  </BreadcrumbItem>
+                  {crumbs.map(({ crumb, id }) => {
+                    return (
+                      <>
+                        <BreadcrumbItem key={id} className="hidden md:block">
+                          {crumb}
+                        </BreadcrumbItem>
+                        <BreadcrumbSeparator key={id} className="hidden md:block" />
+                      </>
+                    );
+                  })}
                 </BreadcrumbList>
               </Breadcrumb>
             </div>

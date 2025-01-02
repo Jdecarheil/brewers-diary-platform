@@ -1,6 +1,11 @@
 import { Button } from '@/components/ui/button';
-export function Submit(props: { title: string; disabled: boolean }) {
-  const { title, disabled } = props;
+
+type SubmitProps = {
+  title: string;
+  disabled: boolean;
+};
+
+export function Submit({ title, disabled }: SubmitProps) {
   return (
     <Button
       variant={'default'}

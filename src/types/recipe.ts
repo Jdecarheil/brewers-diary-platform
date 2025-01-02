@@ -4,7 +4,7 @@ import { Hop } from '@global-types/hop';
 import { Yeast } from '@global-types/yeast';
 
 export type Recipe = {
-  recipe_id?: number;
+  recipe_id: number;
   user_id: string;
   name: string;
   author: string;

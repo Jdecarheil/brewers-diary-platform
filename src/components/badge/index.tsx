@@ -3,9 +3,7 @@ export type BadgeProps = {
   value: string;
 };
 
-export const Badge = (props: BadgeProps) => {
-  const { title, value } = props;
-
+export const Badge = ({ title, value }: BadgeProps) => {
   return (
     <div className="bg-main text-secondary rounded-md text-badge text-center">
       {title}

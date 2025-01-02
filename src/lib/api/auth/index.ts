@@ -1,6 +1,6 @@
 import { HttpMethod } from '@/constants/enums';
 import { request } from '@/lib/request';
-import { LoginResponseSchema } from '@/schemas/response/auth';
+import { LoginResponseSchema, UserResponseSchema } from '@/schemas/response/auth';
 import { AuthResponse } from '@/types/request';
 import { User } from '@/types/user';
 
@@ -16,25 +16,17 @@ export const getUser = () => {
   }
 };
 
-export const signout = async () => {
-  const refreshToken = localStorage.getItem('refreshToken');
-  const accessToken = localStorage.getItem('accessToken');
-  let response: string;
+export const signout = async (token: string | null) => {
+  const data = {
+    method: HttpMethod.POST,
+    body: JSON.stringify({ all: false, refreshToken: token }),
+    headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+  };
 
-  if (refreshToken && accessToken) {
-    const data = {
-      method: HttpMethod.POST,
-      body: JSON.stringify({ all: false, refreshToken: refreshToken }),
-      headers: { Authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' },
-    };
-
-    response = await request<string>(`${import.meta.env.VITE_NHOST_URL_AUTH}/signout`, {
-      ...data,
-    });
-    if (response === 'OK') return true;
-  } else {
-    console.log('Error retrieving credentials from local storage');
-  }
+  const response = await request<string>(`${import.meta.env.VITE_NHOST_URL_AUTH}/signout`, {
+    ...data,
+  });
+  if (response === 'OK') return true;
 };
 
 export const registerWithEmailAndPassword = async (
@@ -48,9 +40,12 @@ export const registerWithEmailAndPassword = async (
     headers: { 'content-type': 'application/json' },
   };
 
-  const response = await request(`${import.meta.env.VITE_NHOST_URL_AUTH}/signup/email-password`, {
-    ...data,
-  });
+  const response = await request<AuthResponse>(
+    `${import.meta.env.VITE_NHOST_URL_AUTH}/signup/email-password`,
+    {
+      ...data,
+    }
+  );
 
   try {
     const result = LoginResponseSchema.parse(response);
@@ -70,15 +65,37 @@ export const loginWithEmailAndPassword = async (
     headers: { 'content-type': 'application/json' },
   };
 
-  const response = await request(`${import.meta.env.VITE_NHOST_URL_AUTH}/signin/email-password`, {
+  const response = await request<AuthResponse>(
+    `${import.meta.env.VITE_NHOST_URL_AUTH}/signin/email-password`,
+    {
+      ...data,
+    }
+  );
+
+  if (response) {
+    try {
+      const result = LoginResponseSchema.parse(response);
+
+      return result;
+    } catch (error) {
+      console.log('Error parsing response schema: ', error);
+    }
+  }
+};
+
+export const refreshSession = async (token: string): Promise<User | undefined> => {
+  const data = {
+    method: HttpMethod.POST,
+    body: JSON.stringify({ refreshToken: token }),
+    headers: { 'content-type': 'application/json' },
+  };
+  const response = await request<User>(`${import.meta.env.VITE_NHOST_URL_AUTH}/token`, {
     ...data,
   });
 
   if (response) {
     try {
-      const result = LoginResponseSchema.parse(response);
-      localStorage.setItem('refreshToken', result.session.refreshToken);
-      localStorage.setItem('accessToken', result.session.accessToken);
+      const result = UserResponseSchema.parse(response);
       return result;
     } catch (error) {
       console.log('Error parsing response schema: ', error);
