@@ -4,11 +4,11 @@ import { useNavigate } from 'react-router';
 
 export const Landing = () => {
   const navigate = useNavigate();
-  const user = useAuth();
+  const { session } = useAuth();
 
   useEffect(() => {
     const checkAuth = async () => {
-      const res = await user.session();
+      const res = await session();
 
       if (res) navigate('/app');
       else navigate('/auth/login');

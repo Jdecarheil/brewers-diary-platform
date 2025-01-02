@@ -15,7 +15,7 @@ type DataTableProps<TData, TValue> = {
 };
 
 export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
-  const table = useReactTable({
+  const { getHeaderGroups, getRowModel } = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
@@ -25,14 +25,12 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
     <div className="rounded-md border">
       <Table>
         <TableHeader>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map((header) => {
+          {getHeaderGroups().map(({ id, headers }) => (
+            <TableRow key={id}>
+              {headers.map(({ id, isPlaceholder, column, getContext }) => {
                 return (
-                  <TableHead key={header.id}>
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(header.column.columnDef.header, header.getContext())}
+                  <TableHead key={id}>
+                    {isPlaceholder ? null : flexRender(column.columnDef.header, getContext())}
                   </TableHead>
                 );
               })}
@@ -40,13 +38,11 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
           ))}
         </TableHeader>
         <TableBody>
-          {table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row) => (
-              <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </TableCell>
+          {getRowModel().rows?.length ? (
+            getRowModel().rows.map(({ id, getIsSelected, getVisibleCells }) => (
+              <TableRow key={id} data-state={getIsSelected() && 'selected'}>
+                {getVisibleCells().map(({ id, column, getContext }) => (
+                  <TableCell key={id}>{flexRender(column.columnDef.cell, getContext())}</TableCell>
                 ))}
               </TableRow>
             ))

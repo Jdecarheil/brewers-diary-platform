@@ -13,7 +13,7 @@ const Login = () => {
   const navigate = useNavigate();
   const errorMessage = useSignal('');
   const errorStatus = useSignal(0);
-  const auth = useAuth();
+  const { login } = useAuth();
 
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -25,7 +25,7 @@ const Login = () => {
 
   async function onSubmit(values: z.infer<typeof loginSchema>) {
     try {
-      const result = await auth.login({ ...values });
+      const result = await login({ ...values });
       if (result) {
         navigate('/app/recipes', {
           replace: true,
@@ -84,7 +84,6 @@ const Login = () => {
           ) : null}
         </form>
       </Form>
-      {/* )} */}
     </>
   );
 };

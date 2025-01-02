@@ -13,11 +13,12 @@ const getRecipesQuery = (recipeId?: string) => {
 };
 
 export const clientLoader = () => {
-  (queryClient: QueryClient) => async () => {
-    const query = getRecipesQuery();
+  ({ getQueryData, fetchQuery }: QueryClient) =>
+    async () => {
+      const query = getRecipesQuery();
 
-    return queryClient.getQueryData(query.queryKey) ?? (await queryClient.fetchQuery(query));
-  };
+      return getQueryData(query.queryKey) ?? (await fetchQuery(query));
+    };
 };
 
 const Recipes = () => {

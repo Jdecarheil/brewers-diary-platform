@@ -19,7 +19,7 @@ type IMatches = {
 };
 
 type HandleType = {
-  crumb: (param?: string) => React.ReactNode;
+  crumb: (param?: string) => ReactNode;
 };
 
 export function DashboardLayout({ children }: { children: ReactNode }) {

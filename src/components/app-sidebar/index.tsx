@@ -24,46 +24,46 @@ const items = [
   {
     title: 'Your Recipes',
     url: '/app/recipes',
-    icon: Home,
+    Icon: Home,
   },
   {
     title: 'Public Recipes',
     url: '/app/public-recipes',
-    icon: Inbox,
+    Icon: Inbox,
   },
   {
     title: 'Tools',
     url: '/app/tools',
-    icon: Calendar,
+    Icon: Calendar,
   },
   {
     title: 'Sessions',
     url: '/app/sessions',
-    icon: Search,
+    Icon: Search,
   },
   {
     title: 'Settings',
     url: '/app/settings',
-    icon: Settings,
+    Icon: Settings,
   },
   {
     title: 'About',
     url: '/app/about',
-    icon: Settings,
+    Icon: Settings,
   },
   {
     title: 'Help',
     url: '/app/help',
-    icon: Settings,
+    Icon: Settings,
   },
 ];
 
 export function AppSidebar() {
   const navigate = useNavigate();
-  const auth = useAuth();
+  const { logout } = useAuth();
 
   const handleLogout = async () => {
-    const result = await auth.logout();
+    const result = await logout();
 
     if (result) {
       toast.info('You were logged out of your session');
@@ -91,12 +91,12 @@ export function AppSidebar() {
           </SidebarGroupLabel>
           <SidebarGroupContent className="mt-7">
             <SidebarMenu>
-              {items.map((item, i) => (
-                <SidebarMenuItem key={item.title}>
+              {items.map(({ title, url, Icon }, i) => (
+                <SidebarMenuItem key={title}>
                   <SidebarMenuButton asChild>
-                    <a href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
+                    <a href={url}>
+                      <Icon />
+                      <span>{title}</span>
                     </a>
                   </SidebarMenuButton>
                   {i === 1 || i === 0 ? <SidebarMenuBadge>24</SidebarMenuBadge> : null}
