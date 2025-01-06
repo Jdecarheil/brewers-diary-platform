@@ -26,14 +26,15 @@ export const resetSchema = z.object({
 
 export const registerSchema = z
   .object({
-    username: z
+    displayName: z
       .string()
       .min(4, {
         message: 'Usernames are not less than 4 characters',
       })
       .max(15, {
         message: 'Usernames are not more than 15 characters',
-      }),
+      })
+      .optional(),
     ...passwordSchema,
     confirmPassword: z
       .string()

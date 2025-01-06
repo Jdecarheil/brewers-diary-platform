@@ -1,22 +1,31 @@
 import { HttpMethod } from '@/constants/enums';
 import { request } from '@/lib/request';
-import { LoginResponseSchema, UserResponseSchema } from '@/schemas/response/auth';
-import { AuthResponse } from '@/types/request';
+import {
+  LoginResponseSchema,
+  RegisterResponseSchema,
+  UserResponseSchema,
+} from '@/schemas/response/auth';
+import { LoginProps, RegisterProps } from '@/types/auth';
+import { LoginResponse, RegisterResponse } from '@/types/request';
 import { User } from '@/types/user';
 
-export const getUser = () => {
-  const accessToken = localStorage.getItem('accessToken');
+export const forgotPasswordWithEmail = async (email: string): Promise<boolean | undefined> => {
+  const data = {
+    method: HttpMethod.POST,
+    body: JSON.stringify({ email: email }),
+    headers: { 'content-type': 'application/json' },
+  };
 
-  if (accessToken) {
-    const data = { headers: { Authorization: `Bearer ${accessToken})}` } };
-    const response = request<User>(`${import.meta.env.VITE_NHOST_URL_AUTH}/user`, {
+  const response = await request<string>(
+    `${import.meta.env.VITE_NHOST_URL_AUTH}/user/password/reset`,
+    {
       ...data,
-    });
-    return response;
-  }
+    }
+  );
+  if (response === 'OK') return true;
 };
 
-export const signout = async (token: string | null) => {
+export const signout = async (token: string | null): Promise<boolean | undefined> => {
   const data = {
     method: HttpMethod.POST,
     body: JSON.stringify({ all: false, refreshToken: token }),
@@ -29,18 +38,18 @@ export const signout = async (token: string | null) => {
   if (response === 'OK') return true;
 };
 
-export const registerWithEmailAndPassword = async (
-  email: string,
-  password: string,
-  displayName: string
-): Promise<AuthResponse | undefined> => {
+export const registerWithEmailAndPassword = async ({
+  email,
+  password,
+  displayName,
+}: RegisterProps): Promise<RegisterResponse | undefined> => {
   const data = {
     method: HttpMethod.POST,
-    body: JSON.stringify({ email: email, password: password, displayName: displayName ?? 'User' }),
+    body: JSON.stringify({ email, password, options: { displayName: displayName ?? 'user' } }),
     headers: { 'content-type': 'application/json' },
   };
 
-  const response = await request<AuthResponse>(
+  const response = await request<RegisterResponse>(
     `${import.meta.env.VITE_NHOST_URL_AUTH}/signup/email-password`,
     {
       ...data,
@@ -48,7 +57,7 @@ export const registerWithEmailAndPassword = async (
   );
 
   try {
-    const result = LoginResponseSchema.parse(response);
+    const result = RegisterResponseSchema.parse(response);
     return result;
   } catch (error) {
     console.log('Error parsing response schema: ', error);
@@ -56,16 +65,15 @@ export const registerWithEmailAndPassword = async (
 };
 
 export const loginWithEmailAndPassword = async (
-  email: string,
-  password: string
-): Promise<AuthResponse | undefined> => {
+  props: LoginProps
+): Promise<LoginResponse | undefined> => {
   const data = {
     method: HttpMethod.POST,
-    body: JSON.stringify({ email: email, password: password }),
+    body: JSON.stringify({ ...props }),
     headers: { 'content-type': 'application/json' },
   };
 
-  const response = await request<AuthResponse>(
+  const response = await request<LoginResponse>(
     `${import.meta.env.VITE_NHOST_URL_AUTH}/signin/email-password`,
     {
       ...data,

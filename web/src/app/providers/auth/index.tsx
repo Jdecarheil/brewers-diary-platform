@@ -1,24 +1,30 @@
-import { loginWithEmailAndPassword, refreshSession, signout } from '@/lib/api/auth';
+import {
+  forgotPasswordWithEmail,
+  loginWithEmailAndPassword,
+  refreshSession,
+  registerWithEmailAndPassword,
+  signout,
+} from '@/lib/api/auth';
+import { LoginProps, RegisterProps } from '@/types/auth';
 import { jwtDecode } from 'jwt-decode';
 import { ReactNode, createContext, useContext } from 'react';
-
-type Login = {
-  email: string;
-  password: string;
-};
 
 const AuthContext = createContext<ProviderProps>({
   login: async () => false,
   logout: async () => false,
   session: async () => false,
   refreshSessionToken: async () => false,
+  forgotPassword: async () => false,
+  register: async () => false,
 });
 
 interface ProviderProps {
-  login(data: Login): Promise<boolean>;
+  login(data: LoginProps): Promise<boolean>;
   logout(): Promise<boolean>;
   session(): Promise<boolean>;
   refreshSessionToken(): Promise<boolean>;
+  forgotPassword(email: string): Promise<boolean>;
+  register(data: RegisterProps): Promise<boolean>;
 }
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
@@ -42,9 +48,30 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     return success;
   };
 
-  const login = async (props: Login) => {
-    const { email, password } = props;
-    const res = await loginWithEmailAndPassword(email, password);
+  const forgotPassword = async (email: string) => {
+    const res = await forgotPasswordWithEmail(email);
+
+    if (res) {
+      return true;
+    }
+    return false;
+  };
+
+  const register = async (props: RegisterProps) => {
+    const res = await registerWithEmailAndPassword({ ...props });
+    let success: boolean;
+    if (res) {
+      localStorage.setItem('refreshToken', res.session.refreshToken);
+      localStorage.setItem('accessToken', res.session.accessToken);
+      success = true;
+    } else {
+      success = false;
+    }
+    return success;
+  };
+
+  const login = async (props: LoginProps) => {
+    const res = await loginWithEmailAndPassword({ ...props });
     let success: boolean;
     if (res) {
       localStorage.setItem('refreshToken', res.session.refreshToken);
@@ -86,7 +113,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ login, logout, session, refreshSessionToken }}>
+    <AuthContext.Provider
+      value={{ login, logout, session, refreshSessionToken, register, forgotPassword }}
+    >
       {children}
     </AuthContext.Provider>
   );

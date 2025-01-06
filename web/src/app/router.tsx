@@ -32,18 +32,19 @@ export const createAppRouter = (queryClient: QueryClient) =>
       children: [
         {
           path: '/auth/login',
-          id: 'auth/login',
+          id: 'login',
           lazy: () => import('@/app/routes/authentication/login').then(convert(queryClient)),
         },
         {
           path: '/auth/register',
-          id: 'auth/register',
+          id: 'register',
           lazy: () => import('@/app/routes/authentication/register').then(convert(queryClient)),
         },
         {
           path: '/auth/forgot-password',
-          id: 'auth/forgot-password',
-          lazy: () => import('@routes/authentication/forgot-password').then(convert(queryClient)),
+          id: 'forgot-password',
+          lazy: () =>
+            import('@/app/routes/authentication/forgot-password').then(convert(queryClient)),
         },
       ],
     },
@@ -93,32 +94,32 @@ export const createAppRouter = (queryClient: QueryClient) =>
         },
         {
           path: '/app/public-recipes',
-          id: 'app/public-recipes',
+          id: 'public-recipes',
           lazy: () => import('@/app/routes/app/recipes').then(convert(queryClient)),
         },
         {
           path: '/app/tools',
-          id: 'app/tools',
+          id: 'tools',
           lazy: () => import('@/app/routes/app/tools').then(convert(queryClient)),
         },
         {
           path: '/app/settings',
-          id: 'app/settings',
+          id: 'settings',
           lazy: () => import('@/app/routes/app/settings').then(convert(queryClient)),
         },
         {
           path: '/app/sessions',
-          id: 'app/sessions',
+          id: 'sessions',
           lazy: () => import('@/app/routes/app/sessions').then(convert(queryClient)),
         },
         {
           path: '/app/about',
-          id: 'app/about',
+          id: 'about',
           lazy: () => import('@/app/routes/app/about').then(convert(queryClient)),
         },
         {
           path: '/app/help',
-          id: 'app/help',
+          id: 'help',
           lazy: () => import('@/app/routes/app/help').then(convert(queryClient)),
         },
       ],

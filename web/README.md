@@ -99,6 +99,10 @@ This project aims to unit test every piece of functionality where possible. This
 
 Project uses vitest for easier integration with vite and works out of the box. In some cases vitest has proven to be faster and easier to set up. Combined with vitest is React Test Library for our component testing.
 
+helpfull commands:
+
+`yarn run vitest --no-watch  -t "fetches*"` - run by pattern match on test name inside file
+
 # Design
 
 ### Component Library
