@@ -11,7 +11,7 @@ create type Addition as enum (
   'Dry Hop'
 );
 
-CREATE TABLE hops (
+CREATE TABLE hop (
   id INT,
   hop_id SERIAL PRIMARY KEY NOT NULL ,
   created_at timestamptz DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -23,10 +23,10 @@ CREATE TABLE hops (
   duration SMALLINT DEFAULT 0 NOT NULL CHECK (duration > 0 AND duration < 100000),
   notes VARCHAR(255) DEFAULT 'n/a' NOT NULL,
   addition Addition DEFAULT 'Boil' NOT NULL,
-  FOREIGN KEY (id) REFERENCES recipes(id)
+  FOREIGN KEY (id) REFERENCES recipe(id)
 );
 
-INSERT INTO hops (id, hop_name, alpha_acid, type, weight, duration, notes, addition) VALUES (1, 'Magnum', 12.8, 'Pellet', 20, 60, 'from local farm', 'Boil'), 
+INSERT INTO hop (id, hop_name, alpha_acid, type, weight, duration, notes, addition) VALUES (1, 'Magnum', 12.8, 'Pellet', 20, 60, 'from local farm', 'Boil'), 
 (1, 'Centennial', 14.8, 'Pellet', 20, 4320, 'from local farm', 'Dry Hop'),
 (3, 'Magnum', 12.8, 'Pellet', 20, 45, 'from local farm', 'Boil'),
 (5, 'Galaxy', 16.7, 'Cryo', 20, 30, 'from local farm', 'Flame Out'),
