@@ -1,40 +1,45 @@
 services:
-  mongo_db:
-    image: mongo:6-jammy
-    container_name: mongodb
-    restart: unless-stopped
+  db:
+    image: postgres:17.2-alpine3.21
+    container_name: postgres
+    restart: always
     env_file: ./.env
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=$MONGODB_USER
-      - MONGO_INITDB_ROOT_PASSWORD=$MONGODB_PASSWORD
-      - MONGO_INITDB_DATABASE=$MONGODB_DATABASE
-      - MONGO_NON_ROOT_USERNAME=$MONGODB_USER
-      - MONGO_NON_ROOT_PASSWORD=secret=$MONGODB_USER
+      - POSTGRES_USER=$POSTGRES_USER
+      - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
+      - POSTGRES_DB=$POSTGRES_DB
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
+      interval: 1s
+      timeout: 5s
+      retries: 10
     ports:
-      - $MONGODB_LOCAL_PORT:$MONGODB_DOCKER_PORT
+      - $POSTGRES_LOCAL_PORT:$POSTGRES_DOCKER_PORT
     volumes:
-      - db:/data/db
-      - ./scripts/db:/docker-entrypoint-initdb.d
+      - ./db/seed:/docker-entrypoint-initdb.d
   app:
     depends_on:
-      - mongo_db
+      db:
+        condition: service_healthy
     build: 
-      context: ./app
-      dockerfile: Dockerfile
-      target: $SPRING_APP_ENV
+      context: .
     container_name: brewers-diary-app
     restart: on-failure
     env_file: ./.env
     ports:
       - $SPRING_LOCAL_PORT:$SPRING_DOCKER_PORT
     environment:
-      SPRING_APPLICATION_JSON: '{
-          "spring.data.mongodb.uri" : "mongodb://$MONGODB_USER:$MONGODB_PASSWORD@mongo_db:$MONGODB_DOCKER_PORT/$MONGODB_DATABASE?authSource=admin"
-        }'
+      - SPRING_DATASOURCE_URL=$SPRING_DATASOURCE_URL
+      - SPRING_DATASOURCE_USERNAME=$SPRING_DATASOURCE_USERNAME
+      - SPRING_DATASOURCE_PASSWORD=$SPRING_DATASOURCE_PASSWORD
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=$SPRING_JPA_HIBERNATE_DDL_AUTO
     volumes:
       - .m2:/root/.m2
     stdin_open: true
     tty: true
+networks:
+  db:
+    driver: bridge
 
 volumes:
   db:

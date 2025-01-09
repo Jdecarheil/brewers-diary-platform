@@ -1,7 +1,6 @@
 import { loadRecipes } from '@/features/recipes/api/queries/recipes';
 import { RecipeList } from '@/features/recipes/layouts/recipe-list';
 import { ViewRecipe } from '@/features/recipes/layouts/view-recipe';
-
 import { QueryClient, queryOptions, useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router';
 
