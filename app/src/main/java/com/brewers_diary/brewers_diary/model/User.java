@@ -21,8 +21,8 @@ public class User implements UserDetails {
   @GeneratedValue(strategy = GenerationType.UUID)
   private UUID id;
 
-  @Column(name = "user_name", nullable = false, unique = true)
-  private String userName;
+  @Column(name = "username", nullable = false, unique = true)
+  private String username;
   
   @Column(nullable = false)
   private String password;
@@ -63,11 +63,11 @@ public class User implements UserDetails {
   }
 
   public String getUserName() {
-	return userName;
+	return username;
   }
 
-  public void setUserName(String userName) {
-	this.userName = userName;
+  public void setUserName(String username) {
+	this.username = username;
   }
 
   public String getPassword() {

@@ -4,10 +4,8 @@ import com.brewers_diary.brewers_diary.dto.LoginUserDto;
 import com.brewers_diary.brewers_diary.dto.RegisterUserDto;
 import com.brewers_diary.brewers_diary.model.User;
 import com.brewers_diary.brewers_diary.service.AuthService;
-import com.brewers_diary.brewers_diary.service.JwtService;/*add*/
+import com.brewers_diary.brewers_diary.service.JwtService;
 import jakarta.validation.Valid;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.http.HttpStatus;
@@ -43,14 +41,13 @@ public class AuthController {
     return ResponseEntity.ok(registeredUser);
   }
 
-  // Endpoint for user login
   @PostMapping("/login")
   public ResponseEntity<LoginResponseDto> authenticate(
     @RequestBody LoginUserDto loginUserDto
   ) {
     User authenticatedUser = authService.authenticate(loginUserDto);
 
-    // Generate JWT token for the authenticated user
+  
     String jwtToken = jwtService.generateToken(authenticatedUser);
     LoginResponseDto loginResponse = new LoginResponseDto()
       .setToken(jwtToken)

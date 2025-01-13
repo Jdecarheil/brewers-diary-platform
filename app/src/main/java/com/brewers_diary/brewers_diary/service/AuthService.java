@@ -29,28 +29,25 @@ public class AuthService {
   }
 
   public User signup(@Valid RegisterUserDto input) {
-    // Check if user already exists
     if (userRepository.findByEmail(input.getEmail()).isPresent()) {
       throw new IllegalArgumentException(
         "User already exists with email: " + input.getEmail()
       );
-    }
-    
-    if (userRepository.findByUsername(input.getUsername()).isPresent()) {
+    } else if (userRepository.findByUsername(input.getUsername()).isPresent()) {
         throw new IllegalArgumentException(
           "Username already exists: " + input.getUsername()
         );
-      }
+      } else {
 
-    // Create and save the new user
-    String hashedPassword = passwordEncoder.encode(input.getPassword());
-    User user = new User();
-    user.setUserName(input.getUsername());
-    user.setPassword(hashedPassword);
-    user.setEmail(input.getEmail());
-    user.setLocale(input.getLocale());
+	    String hashedPassword = passwordEncoder.encode(input.getPassword());
+	    User user = new User();
+	    user.setUserName(input.getUsername());
+	    user.setPassword(hashedPassword);
+	    user.setEmail(input.getEmail());
+	    user.setLocale(input.getLocale());
 
-    return userRepository.save(user);
+	    return userRepository.save(user);
+    }
   }
 
   public User authenticate(LoginUserDto input) {
@@ -60,14 +57,12 @@ public class AuthService {
         new IllegalArgumentException("Email not found: " + input.getEmail())
       );
 
-    // Check if password is correct
     if (!passwordEncoder.matches(input.getPassword(), user.getPassword())) {
       throw new IllegalArgumentException(
         "Incorrect password for email: " + input.getEmail()
       );
     }
 
-    // Perform authentication
     authenticationManager.authenticate(
       new UsernamePasswordAuthenticationToken(
         input.getEmail(),
@@ -75,7 +70,7 @@ public class AuthService {
       )
     );
 
-    return user; // Return authenticated user
+    return user;
   }
 
   public List<User> allUsers() {

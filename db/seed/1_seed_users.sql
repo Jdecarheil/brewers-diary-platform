@@ -10,7 +10,7 @@ $$ language 'plpgsql';
 
 CREATE TABLE user_account (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  user_name VARCHAR(30) NOT NULL UNIQUE,
+  username VARCHAR(30) NOT NULL UNIQUE,
   password VARCHAR(73) NOT NULL,
   email CITEXT UNIQUE NOT NULL,
   created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -21,5 +21,8 @@ CREATE TABLE user_account (
   email_verified BOOLEAN DEFAULT FALSE NOT NULL,
   default_role VARCHAR(4) DEFAULT 'user' NOT NULL
 );
+
+INSERT INTO user_account(id, username, password, email) VALUES 
+('bfda458b-e4e1-4b5e-b73a-08e39df8663d', 'dec0004', '$2a$12$ESI.W.skhcRBt9GxSG2qDehQuBBhDmf.TkDBgks3q31gvjuOCT9fi', 'jordan@mail.com')
 
 

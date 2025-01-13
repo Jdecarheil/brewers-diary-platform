@@ -2,8 +2,10 @@
 
 cd app 
 
+docker-compose rm -f -v #[TODO] - fix anonymous volumes, short term hack here
+
 echo -e "... Shuting down previous containers ..."
-docker compose down
+docker compose down -v
 
 echo -e "... Packaging the app ..."
 ./mvnw clean package
