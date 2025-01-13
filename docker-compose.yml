@@ -24,17 +24,19 @@ services:
     build: 
       context: .
     container_name: brewers-diary-app
-    restart: on-failure
     env_file: ./.env
     ports:
       - $SPRING_LOCAL_PORT:$SPRING_DOCKER_PORT
     environment:
       - SPRING_DATASOURCE_URL=$SPRING_DATASOURCE_URL
       - SPRING_DATASOURCE_USERNAME=$SPRING_DATASOURCE_USERNAME
+      - STRINGTYPE=unspecified
       - SPRING_DATASOURCE_PASSWORD=$SPRING_DATASOURCE_PASSWORD
       - SPRING_JPA_HIBERNATE_DDL_AUTO=$SPRING_JPA_HIBERNATE_DDL_AUTO
-    volumes:
-      - .m2:/root/.m2
+      - SECURITY_JWT_SECRET=$SECURITY_JWT_SECRET
+      - SECURITY_JWT_EXPIRATION=1800000
+      - SPRING_SECURITY_USER_NAME=$SPRING_SECURITY_USER_NAME
+      - SPRING_SECURITY_USER_PASSWORD=$SPRING_SECURITY_USER_PASSWORD
     stdin_open: true
     tty: true
 networks:
