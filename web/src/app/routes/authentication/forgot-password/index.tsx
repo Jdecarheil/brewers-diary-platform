@@ -5,10 +5,11 @@ import { useSignal } from '@preact/signals-react';
 import { useForm } from 'react-hook-form';
 import type { z } from 'zod';
 
+import { useAuth } from '@/app/providers/auth';
 import { Submit } from '@/components/buttons/submit';
 import { FormElement } from '@/components/form-item';
 import { Form } from '@/components/ui/form';
-import { useAuth } from '@/app/providers/auth';
+
 
 const ForgotPassword = () => {
   const errorText = useSignal('');

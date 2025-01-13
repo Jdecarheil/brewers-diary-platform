@@ -37,8 +37,6 @@ services:
       - SECURITY_JWT_EXPIRATION=1800000
       - SPRING_SECURITY_USER_NAME=$SPRING_SECURITY_USER_NAME
       - SPRING_SECURITY_USER_PASSWORD=$SPRING_SECURITY_USER_PASSWORD
-    volumes:
-      - ./db/app:/workspace/app
     stdin_open: true
     tty: true
 networks:
