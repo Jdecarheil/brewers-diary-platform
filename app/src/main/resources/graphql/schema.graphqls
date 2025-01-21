@@ -1,0 +1,28 @@
+scalar UUID
+scalar Timestamp
+
+type Query {
+	allRecipes: [Recipe]
+	recipeById(id: ID!): Recipe
+}
+
+enum BrewStyle {
+  Ale
+  Lager
+}
+
+
+type Recipe {
+	id: ID!
+	uid: UUID!
+	author: String!
+	created_at: Timestamp!
+	updated_at: Timestamp!
+	recipe_name: String!
+	f_volume: Int!
+	notes: String!
+	boil_duration: Int!
+	brew_style: BrewStyle!
+	
+}
+

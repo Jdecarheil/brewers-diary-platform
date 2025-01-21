@@ -5,61 +5,52 @@ import jakarta.validation.constraints.NotBlank;
 
 public class RegisterUserDto {
 
-  @Email
-  @NotBlank
-  private String email;
+	@Email
+	@NotBlank
+	private String email;
 
-  @NotBlank
-  private String password;
+	@NotBlank
+	private String password;
 
-  @NotBlank
-  private String userName;
-  
-  @NotBlank
-  private String locale;
+	@NotBlank
+	private String username;
 
-  public String getEmail() {
-    return email;
-  }
-  
-  public String getLocale() {
-	  return locale;
-  }
+	@NotBlank
+	private String locale;
 
-  public RegisterUserDto setEmail(String email) {
-    this.email = email;
-    return this;
-  }
-  
-  public String getPassword() {
-    return password;
-  }
+	public String getEmail() {
+		return email;
+	}
 
-  public RegisterUserDto setPassword(String password) {
-    this.password = password;
-    return this;
-  }
+	public String getLocale() {
+		return locale;
+	}
 
-  public String getUsername() {
-    return userName;
-  }
+	public RegisterUserDto setEmail(String email) {
+		this.email = email;
+		return this;
+	}
 
-  public RegisterUserDto setUsername(String userName) {
-    this.userName = userName;
-    return this;
-  }
+	public String getPassword() {
+		return password;
+	}
 
-  @Override
-  public String toString() {
-    return (
-      "RegisterUserDto{" +
-      "email='" +
-      email +
-      '\'' +
-      ", userName='" +
-      userName +
-      '\'' +
-      '}'
-    );
-  }
+	public RegisterUserDto setPassword(String password) {
+		this.password = password;
+		return this;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public RegisterUserDto setUsername(String username) {
+		this.username = username;
+		return this;
+	}
+
+	@Override
+	public String toString() {
+		return ("RegisterUserDto{" + "email='" + email + '\'' + ", username='" + username + '\'' + '}');
+	}
 }

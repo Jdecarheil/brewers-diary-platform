@@ -1,81 +1,105 @@
 package com.brewers_diary.brewers_diary.model;
 
+import java.sql.Timestamp;
 import java.util.Date;
+import java.util.UUID;
 
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.JdbcType;
 import org.hibernate.annotations.UpdateTimestamp;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import org.hibernate.dialect.PostgreSQLEnumJdbcType;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 enum Style {
-	  Ale,
-	  Lager
+	Ale, Lager
 }
-
 
 @Entity
 @Table
+@DynamicInsert
 public class Recipe {
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-	
+
+	@Column(name = "uid", nullable = false, columnDefinition = "uuid")
+	private UUID uid;
+
 	@CreationTimestamp
-    private Date created_at;
-	
+	@Column(name = "created_at", nullable = false, updatable = false, columnDefinition = "timestamptz")
+	private Timestamp created_at;
+
 	@UpdateTimestamp
-    private Date updated_at;
-    private String recipe_name;
-    private byte f_volume;
-    private String author;
-    private String notes;
-    private byte boil_duration;
-    
-    @Enumerated
-    @JdbcType(PostgreSQLEnumJdbcType.class)
-    private Style brew_style;
+	@Column(name = "updated_at", nullable = false, columnDefinition = "timestamptz")
+	private Timestamp updated_at;
 
-    
-    public Recipe() {
-    }
+	@ColumnDefault("n/a")
+	@Column(name = "recipe_name", nullable = false, columnDefinition = "varchar(40)")
+	private String recipe_name;
 
-    public Recipe(int id, Date created_at, Date updated_at, String recipe_name, byte f_volume, String author, String notes, byte boil_duration, Style brew_style) {
-        this.id = id;
-        this.created_at = created_at;
-        this.updated_at = updated_at;
-        this.recipe_name = recipe_name;
-        this.f_volume = f_volume;
-        this.author = author;
-        this.notes = notes;
-        this.boil_duration = boil_duration;
-        this.brew_style = brew_style;
-    }
+	@ColumnDefault("23")
+	@Column(name = "f_volume", nullable = false, columnDefinition = "smallint")
+	private String f_volume;
 
-    public int getId() {
-        return id;
-    }
+	@ColumnDefault("n/a")
+	@Column(name = "author", nullable = false, columnDefinition = "varchar(40)")
+	private String author;
 
-    public void setId(int id) {
-        this.id = id;
-    }
+	@ColumnDefault("n/a")
+	@Column(name = "notes", nullable = false, columnDefinition = "varchar(255)")
+	private String notes;
 
-	public Date getCreated_at() {
+	@ColumnDefault("60")
+	@Column(name = "boil_duration", nullable = false, columnDefinition = "smallint")
+	private String boil_duration;
+
+	@Enumerated
+	@JdbcType(PostgreSQLEnumJdbcType.class)
+	@Column(name = "brew_style", nullable = false)
+	@ColumnDefault("Ale")
+	private Style brew_style;
+
+	public Recipe() {
+	}
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public UUID getUid() {
+		return uid;
+	}
+
+	public void setUid(UUID uid) {
+		this.uid = uid;
+	}
+
+	public Timestamp getCreated_at() {
 		return created_at;
 	}
 
-	public void setCreated_at(Date created_at) {
+	public void setCreated_at(Timestamp created_at) {
 		this.created_at = created_at;
 	}
 
-	public Date getUpdated_at() {
+	public Timestamp getUpdated_at() {
 		return updated_at;
 	}
 
-	public void setUpdated_at(Date updated_at) {
+	public void setUpdated_at(Timestamp updated_at) {
 		this.updated_at = updated_at;
 	}
 
@@ -87,11 +111,11 @@ public class Recipe {
 		this.recipe_name = recipe_name;
 	}
 
-	public int getF_volume() {
+	public String getF_volume() {
 		return f_volume;
 	}
 
-	public void setF_volume(byte f_volume) {
+	public void setF_volume(String f_volume) {
 		this.f_volume = f_volume;
 	}
 
@@ -111,11 +135,11 @@ public class Recipe {
 		this.notes = notes;
 	}
 
-	public int getBoil_duration() {
+	public String getBoil_duration() {
 		return boil_duration;
 	}
 
-	public void setBoil_duration(byte boil_duration) {
+	public void setBoil_duration(String boil_duration) {
 		this.boil_duration = boil_duration;
 	}
 
@@ -127,5 +151,4 @@ public class Recipe {
 		this.brew_style = brew_style;
 	}
 
-   
 }

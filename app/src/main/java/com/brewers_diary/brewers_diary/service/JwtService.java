@@ -13,6 +13,7 @@ import java.util.function.Function;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -73,7 +74,9 @@ public class JwtService {
     final String username = extractUsername(token);
     boolean isValid =
       username.equals(userDetails.getUsername()) && !isTokenExpired(token);
-
+    if(!isValid) {
+    	throw new AccessDeniedException("Fail");
+    }
     logger.info("Token validation for user {}: {}", username, isValid);
     return isValid;
   }

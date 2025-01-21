@@ -37,6 +37,7 @@ services:
       - SECURITY_JWT_EXPIRATION=1800000
       - SPRING_SECURITY_USER_NAME=$SPRING_SECURITY_USER_NAME
       - SPRING_SECURITY_USER_PASSWORD=$SPRING_SECURITY_USER_PASSWORD
+      - LOGGING_FILE_NAME=brewers-diary.log
     stdin_open: true
     tty: true
 networks:

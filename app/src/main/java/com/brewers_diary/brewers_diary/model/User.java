@@ -1,9 +1,14 @@
 package com.brewers_diary.brewers_diary.model;
 
+import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import jakarta.persistence.Column;
@@ -11,165 +16,193 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "user_account")
+@DynamicInsert
 public class User implements UserDetails {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.UUID)
-  private UUID id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private UUID id;
+	
+	@OneToMany
+	@JoinColumn(name = "uid")
+    private List<Recipe> recipes;
+	
+	@Column(name = "username", nullable = false, unique = true, columnDefinition = "varchar(30)")
+	private String username;
 
-  @Column(name = "username", nullable = false, unique = true)
-  private String username;
-  
-  @Column(nullable = false)
-  private String password;
-  
-  @Column(nullable = false, unique = true, columnDefinition="citext")
-  private String email;
+	@Column(name = "password", nullable = false, columnDefinition = "varchar(73)")
+	private String password;
 
-  @Column(nullable = false)
-  private String created_at;
-  
-  @Column(nullable = false)
-  private String updated_at;
-  
-  @Column(nullable = false)
-  private String last_seen;
-  
-  @Column(nullable = false)
-  private boolean disabled;
-  
-  @Column(nullable = false)
-  private String locale;
-  
-  @Column(nullable = false)
-  private boolean email_verified;
-  
-  @Column(nullable = false)
-  private String default_role;
- 
+	@Column(nullable = false, unique = true, columnDefinition = "citext")
+	private String email;
 
-  public User() {}
-  
-  public UUID getId() {
-	return id;
-  }
+	@CreationTimestamp
+	@Column(name = "created_at", nullable = false, updatable = false, columnDefinition = "timestamptz")
+	private Timestamp created_at;
 
-  public void setId(UUID id) {
-	this.id = id;
-  }
+	@UpdateTimestamp
+	@Column(name = "updated_at", nullable = false, columnDefinition = "timestamptz")
+	private Timestamp updated_at;
 
-  public String getUserName() {
-	return username;
-  }
+	@UpdateTimestamp
+	@Column(name = "last_seen", nullable = false, columnDefinition = "timestamptz")
+	private Timestamp last_seen;
 
-  public void setUserName(String username) {
-	this.username = username;
-  }
+	@ColumnDefault("false")
+	@Column(name = "disabled", nullable = false, columnDefinition = "boolean")
+	private boolean disabled;
 
-  public String getPassword() {
-	return password;
-  }
+	@ColumnDefault("en")
+	@Column(name = "locale", nullable = false, columnDefinition = "varchar(2)")
+	private String locale;
 
-  public void setPassword(String password) {
-	this.password = password;
-  }
+	@ColumnDefault("false")
+	@Column(name = "email_verified", nullable = false, columnDefinition = "boolean")
+	private boolean email_verified;
 
-  public String getEmail() {
-	return email;
-  }
+	@ColumnDefault("user")
+	@Column(name = "default_role", nullable = false, columnDefinition = "varchar(4)")
+	private String default_role;
 
-  public void setEmail(String email) {
-	this.email = email;
-  }
+	
+	public User() {
+	}
 
-  public String getCreated_at() {
-	return created_at;
-  }
+	
+	public List<Recipe> getRecipes() {
+		return recipes;
+	}
 
-  public void setCreated_at(String created_at) {
-	this.created_at = created_at;
-  }
 
-  public String getUpdated_at() {
-	return updated_at;
-  }
+	public void setRecipes(List<Recipe> recipes) {
+		this.recipes = recipes;
+	}
 
-  public void setUpdated_at(String updated_at) {
-	this.updated_at = updated_at;
-  }
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
-  public String getLast_seen() {
-	return last_seen;
-  }
+	public UUID getId() {
+		return id;
+	}
 
-  public void setLast_seen(String last_seen) {
-	this.last_seen = last_seen;
-  }
+	public void setId(UUID id) {
+		this.id = id;
+	}
 
-  public boolean isDisabled() {
-	return disabled;
-  }
+	public String getUserName() {
+		return username;
+	}
 
-  public void setDisabled(boolean disabled) {
-	this.disabled = disabled;
-  }
+	public void setUserName(String username) {
+		this.username = username;
+	}
 
-  public String getLocale() {
-	return locale;
-  }	
+	public String getPassword() {
+		return password;
+	}
 
-  public void setLocale(String locale) {
-	this.locale = locale;
-  }
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-  public boolean isEmail_verified() {
-	return email_verified;
-  }
+	public String getEmail() {
+		return email;
+	}
 
-  public void setEmail_verified(boolean email_verified) {
-	this.email_verified = email_verified;
-  }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-  public String getDefault_role() {
-	return default_role;
-  }
+	public Date getCreated_at() {
+		return created_at;
+	}
 
-  public void setDefault_role(String default_role) {
-	this.default_role = default_role;
-  }
-   
-  @Override
-  public Collection<? extends GrantedAuthority> getAuthorities() {
-	  return List.of(); // Customize based on your roles/permissions
-  }
-  
-  @Override
-  public String getUsername() {
-	  return email; // Use email as username
-  }
+	public void setCreated_at(Timestamp created_at) {
+		this.created_at = created_at;
+	}
 
-  @Override
-  public boolean isAccountNonExpired() {
-    return true; // Customize based on your logic
-  }
+	public Date getUpdated_at() {
+		return updated_at;
+	}
 
-  @Override
-  public boolean isAccountNonLocked() {
-    return true; // Customize based on your logic
-  }
+	public void setUpdated_at(Timestamp updated_at) {
+		this.updated_at = updated_at;
+	}
 
-  @Override
-  public boolean isCredentialsNonExpired() {
-    return true; // Customize based on your logic
-  }
+	public Date getLast_seen() {
+		return last_seen;
+	}
 
-  @Override
-  public boolean isEnabled() {
-    return true; // Customize based on your logic
-  }
+	public void setLast_seen(Timestamp last_seen) {
+		this.last_seen = last_seen;
+	}
+
+	public boolean isDisabled() {
+		return disabled;
+	}
+
+	public void setDisabled(boolean disabled) {
+		this.disabled = disabled;
+	}
+
+	public String getLocale() {
+		return locale;
+	}
+
+	public void setLocale(String locale) {
+		this.locale = locale;
+	}
+
+	public boolean isEmail_verified() {
+		return email_verified;
+	}
+
+	public void setEmail_verified(boolean email_verified) {
+		this.email_verified = email_verified;
+	}
+
+	public String getDefault_role() {
+		return default_role;
+	}
+
+	public void setDefault_role(String default_role) {
+		this.default_role = default_role;
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return List.of(); // Customize based on your roles/permissions
+	}
+
+	@Override
+	public String getUsername() {
+		return email; // Use email as username
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return true; // Customize based on your logic
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return true; // Customize based on your logic
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true; // Customize based on your logic
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return true; // Customize based on your logic
+	}
 }
-
