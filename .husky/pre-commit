@@ -3,6 +3,6 @@
 
 cd web
 echo "Running unit tests for web"
-npm run test:unit
+yarn run test:unit
 echo "Running Lint Stage for web"
-npx lint-staged --no-stash
+yarn run lint-staged --no-stash

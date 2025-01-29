@@ -52,16 +52,13 @@ src
 ## Static analysis
 
 - Typescript\
-  A standard nowadays in javascript projects to ensure type safety and get mroe assurance as our app scales.
+  A standard nowadays in javascript projects to ensure type safety as our app scales.
 
 - Biome linting:\
-  Formatting and rule checking to lint code, configured to run on commits
-
-- Husky commit linting:\
-  We use husky to run our pre-commit hook and run lint staged and lint our code before work can be commited. Commit messages will also need to follow a specific format which you can find the config for in .husky/commit-msg
+  Formatting and rule checking to lint code, configured to run on commits. Quicker by most accounts as compared to eslint, also has been a simpler process to setup.
 
 - Prettier:\
-  Is not yet ran through our pre-commit hook, however the default config file is found at the root of this application and it is suggested to use the prettier plugin for vscode and format on save
+  Is not yet ran through our pre-commit hook, however the default config file is found at the root of this application and it is suggested to use the prettier plugin for vscode and format on save.
 
 - Zod:\
   Whilst not static, zod is used for schema declaration and validation with our input form data as well as network request/response data. As typescript checks types at compile time, we cannot guarantee safe types at runtime.
@@ -72,8 +69,8 @@ src
 - _Functional components to use upper camel._
 - _Where code can be reused, it should be included at the highest "relevant" directory_
 - _Unit tests accross the logic and accross all components_
-- _dependencies not referenced in code to be installed globally via shell setup script_
-- _types to be used over interfaces where it makes sense_
+- _Dependencies not referenced in code to be installed globally via shell setup script_
+- _Types to be used over interfaces where it makes sense_
 
 # Testing
 
